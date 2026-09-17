@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.BASE_URL || 'https://inner-communication.vercel.app'),
   robots: 'noindex, nofollow',
   title: {
-    template: '%s | Sample CMS',
-    default: 'Sample CMS',
+    template: '%s | 確定申告ダッシュボード',
+    default: '確定申告ダッシュボード',
   },
   description:
-    'Sample CMSです',
+    '個人事業主向けに、売上・源泉徴収・経費・所得控除を e-Tax へ転記できる形で集計するダッシュボードです。',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
@@ -25,22 +25,22 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: {
-      template: '%s | Sample CMS',
-      default: 'Sample CMS',
+      template: '%s | 確定申告ダッシュボード',
+      default: '確定申告ダッシュボード',
     },
     description:
-      'Sample CMSです',
+      '個人事業主向けに、売上・源泉徴収・経費・所得控除を e-Tax へ転記できる形で集計するダッシュボードです。',
     images: ['/ogp.jpg'],
     type: 'website',
     url: '/',
     locale: 'ja_JP',
-    siteName: 'Sample CMS',
+    siteName: '確定申告ダッシュボード',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sample CMS',
+    title: '確定申告ダッシュボード',
     description:
-      'Sample CMSです',
+      '個人事業主向けに、売上・源泉徴収・経費・所得控除を e-Tax へ転記できる形で集計するダッシュボードです。',
     images: ['/twitter-image.jpg'],
   },
 };

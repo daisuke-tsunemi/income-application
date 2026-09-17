@@ -22,6 +22,21 @@
     }
   }
 }
+// 集計表は行数が少ないので、グローバルの高さ固定（70dvh）を解除する
+.autoHeight{
+  height: auto !important;
+}
+// 縦に比較する数値は等幅数字にする
+.num{
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+// 明細内に並べる領収書サムネイル
+.receipts{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+}
 .img{
   display:block;
   height: 3rem;

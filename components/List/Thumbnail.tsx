@@ -4,11 +4,13 @@ import styles from './list.module.scss';
 
 type Props = {
   image?: MicroCMSImage;
+  /** 領収書・証明書など、何の画像かが分かる代替テキスト */
+  alt?: string;
   /** first view に入る行だけ eager 読み込みにして LCP を改善する */
   priority?: boolean;
 };
 
-export default function Thumbnail({ image, priority = false }: Props) {
+export default function Thumbnail({ image, alt = 'サムネイル', priority = false }: Props) {
   if (!image) {
     return (
       <Image
@@ -30,7 +32,7 @@ export default function Thumbnail({ image, priority = false }: Props) {
       />
       <img
         src={image.url}
-        alt="サムネイル"
+        alt={alt}
         className={styles.img}
         width={image.width}
         height={image.height}

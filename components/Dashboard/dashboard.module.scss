@@ -9,37 +9,16 @@ $hairline: #e1e0d9;
 
 // 絞り込みは全チャートの上に1行でまとめる（チャートごとに置かない）
 .filter {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   gap: .5rem .75rem;
-  margin-bottom: 1.5rem;
   position:relative;
-  &__label {
-    color: $ink-secondary;
-    font-size: .8125rem;
-    font-weight: 500;
-  }
-  &__input {
-    background-color: #fff;
-    border: 1px solid var(--border-dark);
-    border-radius: .25rem;
-    color: $ink-primary;
-    font-size: .875rem;
-    padding: .375rem .5rem;
-    font-variant-numeric: tabular-nums;
-    &:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 1px;
-    }
-  }
   &__range {
-    color: $ink-secondary;
-    font-size: .8125rem;
     strong {
       color: $ink-primary;
       font-variant-numeric: tabular-nums;
     }
+  }
+  &__note {
+    margin-left: .5rem;
   }
   &__reset {
     background: none;
@@ -153,7 +132,7 @@ $hairline: #e1e0d9;
 
 .tiles {
   display: grid;
-  gap: 1rem;
+  gap:.5rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   @include respond-lg {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -163,12 +142,10 @@ $hairline: #e1e0d9;
 .tile {
   background-color: $surface;
   border-radius: .5rem;
-  padding: 3vh 2.5vw;
+  padding: 2vh 1.5vw;
   border: 1px solid var(--border);
   &__label {
-    color: $ink-secondary;
-    font-size: .8125rem;
-    margin-bottom: .375rem;
+    color: $ink-muted;
   }
   &__value {
     color: $ink-primary;
@@ -186,6 +163,67 @@ $hairline: #e1e0d9;
     font-size: .875rem;
     font-weight: 500;
     margin-left: .25rem;
+  }
+  // どの様式のどこに転記する数字かを添える
+  &__note {
+    color: $ink-secondary;
+  }
+}
+
+// 対応が残っている数字（未入金・未確認）は枠と値で区別する
+.tile--alert {
+  background-color: var(--invalid);
+  border-color: var(--invalid-dark);
+  .tile__value {
+    color: var(--invalid-dark);
+  }
+}
+
+// 集計表と明細表を縦に積むページ用
+.section {
+  & + & {
+    margin-top: 2.5rem;
+  }
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .25rem .75rem;
+    margin-bottom: .75rem;
+  }
+  &__note {
+    color: $ink-secondary;
+    font-size: .8125rem;
+  }
+}
+
+// 合計行（申告書に転記する数字）はテーブルの外に強調して置く
+.total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: .375rem .75rem;
+  background-color: $surface;
+  border: 1px solid var(--border);
+  border-radius: .25rem;
+  margin-top: .75rem;
+  padding: .625rem .875rem;
+  &__label {
+    color: $ink-secondary;
+    font-size: .8125rem;
+    font-weight: 500;
+  }
+  &__value {
+    color: $ink-primary;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  &__unit {
+    color: $ink-secondary;
+    font-size: .8125rem;
   }
 }
 

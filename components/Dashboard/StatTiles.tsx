@@ -1,37 +1,33 @@
-import type { DashboardSummary } from '@/libs/analytics';
 import styles from './dashboard.module.scss';
 
-type Props = {
-  summary: DashboardSummary;
-};
-
-type Tile = {
+export type Tile = {
   label: string;
   value: string;
   unit?: string;
+  /** どの申告書のどこに使う数字か、といった補足 */
+  note?: string;
+  /** 対応が必要な数字（未入金・未確認など）を目立たせる */
+  alert?: boolean;
 };
 
-export default function StatTiles({ summary }: Props) {
-  const tiles: Tile[] = [
-    { label: '商談数', value: summary.dealCount.toLocaleString('ja-JP'), unit: '件' },
-    { label: '売上金額', value: summary.salesTotal.toLocaleString('ja-JP'), unit: '円' },
-    { label: '見込み金額', value: summary.estimatedTotal.toLocaleString('ja-JP'), unit: '円' },
-    {
-      label: '受注率',
-      value: summary.wonRate === null ? '—' : summary.wonRate.toFixed(1),
-      unit: summary.wonRate === null ? undefined : '%',
-    },
-  ];
+type Props = {
+  tiles: Tile[];
+};
 
+export default function StatTiles({ tiles }: Props) {
   return (
     <div className={styles.tiles}>
       {tiles.map((tile) => (
-        <div key={tile.label} className={styles.tile}>
+        <div
+          key={tile.label}
+          className={`c-heading--sm u-mb8 ${styles.tile} ${tile.alert ? styles['tile--alert'] : ''}`}
+        >
           <p className={styles.tile__label}>{tile.label}</p>
           <p className={styles.tile__value}>
             {tile.value}
             {tile.unit && <span className={styles.tile__unit}>{tile.unit}</span>}
           </p>
+          {tile.note && <p className={`${styles.tile__note} c-txt__sm u-mt8`}>{tile.note}</p>}
         </div>
       ))}
     </div>

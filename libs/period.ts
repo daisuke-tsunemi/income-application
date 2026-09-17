@@ -1,48 +1,54 @@
 import type { Dayjs } from 'dayjs';
-import { jstMonth, jstNow } from './datetime';
-import { DASHBOARD_MONTHS } from '@/constants';
+import { jstNow } from './datetime';
+import { YEAR_OPTIONS_COUNT } from '@/constants';
 
-/** input[type=month] が扱う YYYY-MM 形式 */
-const MONTH_FORMAT = 'YYYY-MM';
-
-// dayjs の strict パースはプラグインが要るため、形式は正規表現で検証する
-const MONTH_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
-
+/**
+ * 確定申告の集計単位は暦年（1/1〜12/31）で固定する。
+ * 月単位の期間指定は申告書に転記する数字と噛み合わないため用意しない。
+ */
 export type Period = {
-  /** 起点月の初日 0:00（JST） */
+  year: number;
+  /** 対象年の 1/1 0:00（JST） */
   start: Dayjs;
-  /** 終了月の末日 23:59:59.999（JST） */
+  /** 対象年の 12/31 23:59:59.999（JST） */
   end: Dayjs;
-  /** input[type=month] の value */
-  startValue: string;
-  /** 「2025.10 〜 2026.09」形式の表示用ラベル */
+  /** 「2026年分」形式の表示用ラベル */
   label: string;
-  /** microCMS の filters に渡す publishedAt の範囲条件 */
+  /** microCMS の filters に渡す date の範囲条件 */
   filters: string;
 };
 
-/** 何も指定が無いときの起点（今月が最終月になるように遡る） */
-export const defaultStartMonth = (): string =>
-  jstNow().startOf('month').subtract(DASHBOARD_MONTHS - 1, 'month').format(MONTH_FORMAT);
+/** 何も指定が無いときの対象年 */
+export const defaultYear = (): number => jstNow().year();
 
-/**
- * URL クエリの YYYY-MM を起点月として期間を組み立てる。
- * 未指定・不正な値は既定の起点にフォールバックする。
- */
-export const buildPeriod = (startMonth?: string, months = DASHBOARD_MONTHS): Period => {
-  const value = startMonth && MONTH_PATTERN.test(startMonth) ? startMonth : defaultStartMonth();
-  const start = jstMonth(value).startOf('month');
-  const end = start.add(months - 1, 'month').endOf('month');
+/** プルダウンに並べる年（新しい順） */
+export const yearOptions = (): number[] => {
+  const latest = defaultYear();
+  return Array.from({ length: YEAR_OPTIONS_COUNT }, (_, index) => latest - index);
+};
+
+/** URL クエリの年を数値に正規化する（不正値は当年にフォールバック） */
+export const parseYear = (year?: string): number => {
+  const parsed = Number(year);
+  const options = yearOptions();
+  return options.includes(parsed) ? parsed : defaultYear();
+};
+
+/** 対象年から集計期間を組み立てる */
+export const buildPeriod = (year?: string): Period => {
+  const target = parseYear(year);
+  const start = jstNow().year(target).startOf('year');
+  const end = start.endOf('year');
 
   // microCMS の greater_than / less_than は境界を含まないため、前後に1ミリ秒ずらす
   const after = start.subtract(1, 'millisecond').toISOString();
   const before = end.add(1, 'millisecond').toISOString();
 
   return {
+    year: target,
     start,
     end,
-    startValue: start.format(MONTH_FORMAT),
-    label: `${start.format('YYYY.MM')} 〜 ${end.format('YYYY.MM')}`,
-    filters: `publishedAt[greater_than]${after}[and]publishedAt[less_than]${before}`,
+    label: `${target}年分`,
+    filters: `date[greater_than]${after}[and]date[less_than]${before}`,
   };
 };

@@ -1,4 +1,11 @@
 import { createClient, type MicroCMSQueries } from 'microcms-js-sdk';
+import type { Category, Client, Deduction, Expense, Income } from './types';
+import {
+  DEDUCTION_FIELDS,
+  ENDPOINT,
+  EXPENSE_FIELDS,
+  INCOME_FIELDS,
+} from '@/constants';
 
 // 環境変数にMICROCMS_SERVICE_DOMAINが設定されていない場合はエラーを投げる
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
@@ -16,7 +23,7 @@ export const client = createClient({
 
 export type ListResult<T> = {
   contents: T[];
-  /** 絞り込み後の総件数。ページャの総ページ数算出に使う */
+  /** 絞り込み後の総件数 */
   totalCount: number;
 };
 
@@ -42,7 +49,6 @@ export type AllContentsResult<T> = ListResult<T> & {
 
 /**
  * 集計用に全件取得する。100件ずつ辿るため、暴走しないよう取得回数に上限を設ける。
- * 一覧表示には使わないこと（ページングは getContents 側で行う）。
  */
 export async function getAllContents<T>(
   endpoint: string,
@@ -81,7 +87,40 @@ export async function getContent<T>(
   return (data ?? null) as T | null;
 }
 
-/** generateStaticParams 用の ID 一覧（取得失敗時は空配列） */
-export async function getContentIds(endpoint: string): Promise<string[]> {
-  return client.getAllContentIds({ endpoint }).catch(() => []);
-}
+/* ------------------------------------------------------------------ *
+ * 確定申告ダッシュボード用の取得関数
+ * すべて集計が目的なので getAllContents（1リクエスト100件）で全件辿る。
+ * filters には buildPeriod().filters（対象年の date 範囲）を渡す想定。
+ * ------------------------------------------------------------------ */
+
+/** 売上・源泉徴収を日付の古い順に取得する */
+export const getIncomes = (filters?: string) =>
+  getAllContents<Income>(ENDPOINT.income, {
+    fields: INCOME_FIELDS,
+    orders: 'date',
+    ...(filters ? { filters } : {}),
+  });
+
+/** 経費を日付の古い順に取得する */
+export const getExpenses = (filters?: string) =>
+  getAllContents<Expense>(ENDPOINT.expenses, {
+    fields: EXPENSE_FIELDS,
+    orders: 'date',
+    ...(filters ? { filters } : {}),
+  });
+
+/** 所得控除を日付の古い順に取得する */
+export const getDeductions = (filters?: string) =>
+  getAllContents<Deduction>(ENDPOINT.deductions, {
+    fields: DEDUCTION_FIELDS,
+    orders: 'date',
+    ...(filters ? { filters } : {}),
+  });
+
+/** 取引先マスタ */
+export const getClients = () =>
+  getAllContents<Client>(ENDPOINT.clients, { orders: 'name' });
+
+/** 経費科目マスタ */
+export const getCategories = () =>
+  getAllContents<Category>(ENDPOINT.categories, { orders: 'name' });

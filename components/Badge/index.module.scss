@@ -1,0 +1,40 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1.4;
+  padding: .0625rem .5rem;
+  white-space: nowrap;
+}
+
+/* 突合済み・入金済みなど、対応が終わっている状態 */
+.badge--done {
+  background-color: #e4f5ea;
+  border-color: #9ed3b3;
+  color: #14532d;
+}
+
+/* 未確認・未入金など、対応が残っている状態 */
+.badge--todo {
+  background-color: var(--invalid);
+  border-color: var(--invalid-dark);
+  color: var(--invalid-dark);
+}
+
+/* 事業按分ありなど、注意して見る必要がある状態 */
+.badge--note {
+  background-color: #fdf0e6;
+  border-color: #eab88f;
+  color: #8a3b0c;
+}
+
+/* 支払方法など、単なるラベル */
+.badge--plain {
+  background-color: #e8ebef;
+  border-color: var(--border-dark);
+  color: #3a3a3a;
+}

@@ -1,0 +1,162 @@
+@use "@/styles/foundation/variables" as *;
+
+/* 転記用ツールであって帳簿ではない、という前提を各ページで明示する */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: .625rem;
+  background-color: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: .375rem;
+  padding: .75rem 1rem;
+  &__icon {
+    flex: none;
+    fill: var(--primary);
+    height: 1.25rem;
+    width: 1.25rem;
+    margin-top: .0625rem;
+  }
+  &__body {
+    min-width: 1px;
+  }
+  &__title {
+    color: var(--text-dark);
+    font-size: .875rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  &__text {
+    color: var(--text-light);
+    font-size: .8125rem;
+    line-height: 1.7;
+    margin-top: .25rem;
+  }
+}
+
+/* 本システムが扱わない欄の明示。転記漏れが最も起きやすい箇所 */
+.coverage {
+  background-color: #fdf6ec;
+  border: 1px solid #eab88f;
+  border-radius: .375rem;
+  padding: .75rem 1rem;
+  &__title {
+    color: #8a3b0c;
+    font-size: .875rem;
+    font-weight: 700;
+    margin-bottom: .375rem;
+  }
+  &__list {
+    display: grid;
+    gap: .125rem;
+    li {
+      color: var(--text-dark);
+      font-size: .8125rem;
+      line-height: 1.6;
+      padding-left: 1rem;
+      position: relative;
+      &:before {
+        content: '・';
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+  &__text {
+    color: var(--text-light);
+    font-size: .75rem;
+    line-height: 1.6;
+    margin-top: .5rem;
+  }
+}
+
+/* 控除ごとの転記手順。合計をそのまま入れてよいかを最初に示す */
+.guide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .375rem .75rem;
+  background-color: #fff;
+  border: 1px solid var(--border);
+  border-radius: .375rem;
+  padding: .625rem .875rem;
+  margin-bottom: .75rem;
+  &__form {
+    color: var(--text-dark);
+    font-size: .8125rem;
+    font-weight: 700;
+  }
+  &__caution {
+    color: var(--text-light);
+    font-size: .8125rem;
+    line-height: 1.7;
+    width: 100%;
+  }
+}
+
+/* 未確認・未入金など、対応が必要な項目を並べる枠 */
+.alert {
+  background-color: var(--invalid);
+  border: 1px solid var(--invalid-dark);
+  border-radius: .375rem;
+  padding: 1rem;
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .5rem;
+    margin-bottom: .75rem;
+  }
+  &__title {
+    color: var(--invalid-dark);
+    font-size: .9375rem;
+    font-weight: 700;
+  }
+  &__count {
+    color: var(--invalid-dark);
+    font-size: .8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+  &__list {
+    display: grid;
+    gap: .375rem;
+  }
+  &__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem .75rem;
+    background-color: #fff;
+    border-radius: .25rem;
+    padding: .5rem .75rem;
+    font-size: .8125rem;
+    time {
+      color: var(--text-light);
+      font-variant-numeric: tabular-nums;
+      flex: none;
+    }
+    strong {
+      min-width: 1px;
+    }
+  }
+  &__amount {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  &__more {
+    color: var(--text-light);
+    font-size: .75rem;
+    margin-top: .5rem;
+  }
+  &__done {
+    color: var(--text-light);
+    font-size: .8125rem;
+  }
+}
+
+/* 対応不要なときの落ち着いた見た目 */
+.alert--clear {
+  background-color: #fff;
+  border-color: var(--border);
+}

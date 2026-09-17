@@ -1,16 +1,13 @@
 "use client";
-import { useEffect, Suspense } from "react";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
+import styles from "./layout.module.scss";
 
-function NotFoundContent({ error }: { error: Error }) {
+function NotFoundContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
-
-  useEffect(() => {
-    console.error("404 Error:", error);
-  }, [error]);
 
   return (
     <>
@@ -26,10 +23,12 @@ function NotFoundContent({ error }: { error: Error }) {
   );
 }
 
-export default function NotFound({ error }: { error: Error }) {
+// not-found.tsx には props が渡らない（error を受け取るのは error.tsx）。
+// useSearchParams を使うため Suspense で囲む必要がある。
+export default function NotFound() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-      <NotFoundContent error={error} />
+    <Suspense fallback={<div className={styles.loading}>Loading...</div>}>
+      <NotFoundContent />
     </Suspense>
   );
 }

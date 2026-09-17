@@ -7,11 +7,9 @@ import styles from './GlobalNav.module.scss';
 
 const NAV_ITEMS = [
   { href: '/', icon: 'dashboard', label: 'ダッシュボード' },
-  { href: '/deals', icon: 'check_circle', label: '商談・案件管理' },
-  { href: '/activities', icon: 'play', label: '活動履歴' },
-  { href: '/customers', icon: 'order', label: '顧客管理' },
-  { href: '/services', icon: 'lightning', label: '商材・サービス' },
-  { href: '/employees', icon: 'user', label: '自社担当者' },
+  { href: '/incomes', icon: 'order', label: '売上・源泉徴収' },
+  { href: '/expenses', icon: 'lightning', label: '経費・決算書' },
+  { href: '/deductions', icon: 'check_circle', label: '所得控除' },
 ] as const;
 
 // "/" は完全一致、それ以外は配下のページ（/deals/[id] など）も current 扱いにする

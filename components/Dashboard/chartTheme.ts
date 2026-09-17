@@ -12,8 +12,12 @@ export const SURFACE = '#f1f4f7';
 
 /** カテゴリカル（系列の識別） */
 export const SERIES = {
-  sales: '#00a849',
-  estimated: '#ea5115',
+  /** 売上（収入金額） */
+  income: '#00a849',
+  /** 源泉徴収税額 */
+  withheld: '#ea5115',
+  /** 必要経費。名義尺度なので科目ごとに色は変えない */
+  expense: '#2178e3',
 } as const;
 
 /** 序数ランプ（パイプライン段階の順序を明度で表す） */

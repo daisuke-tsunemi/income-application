@@ -19,6 +19,13 @@ export const formatPrice = (value?: string | number | null): string | null => {
   return Number.isNaN(num) ? String(value) : num.toLocaleString('ja-JP');
 };
 
+/** 集計値を「150,000」形式にする。未入力は 0 として扱う（申告書に転記する数字なので空欄にしない） */
+export const formatAmount = (value?: number | null): string =>
+  (value ?? 0).toLocaleString('ja-JP');
+
+/** 事業割合を「70%」形式にする */
+export const formatRatio = (value: number): string => `${value.toLocaleString('ja-JP')}%`;
+
 /** 日付を「2026.09.09」形式にする（JST 固定） */
 export const formatDate = (value?: string | null): string | null =>
   value ? jst(value).format('YYYY.MM.DD') : null;
