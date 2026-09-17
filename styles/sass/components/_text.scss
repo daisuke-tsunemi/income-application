@@ -44,11 +44,14 @@
     font-size: 0.75rem;
     letter-spacing: 0;
   }
+  // 主要な値の下に添えるサブ情報（住所・注記など）用。
+  // サイズを削るだけでなく不透明度も重ねると読みにくくなるため、
+  // 色は不透明のまま var(--text-light) に変えてコントラストを保つ
   &__min {
-    font-size: 0.7rem;
-    line-height: 1.2em;
+    font-size: 0.8125rem;
+    line-height: 1.5;
     letter-spacing: 0;
-    opacity: .8;
+    color: var(--text-light);
   }
   &__unit {
     font-size: 0.75rem;

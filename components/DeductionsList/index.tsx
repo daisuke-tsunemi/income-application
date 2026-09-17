@@ -61,8 +61,8 @@ const groupColumns: Column<DeductionGroup>[] = [
       return (
         <>
           {row.breakdown.map((item) => (
-            <p key={item.category} className="c-txt__xs">
-              {item.category}　{formatAmount(item.amount)} 円
+            <p key={item.category} className="c-txt__sm">
+              {item.category}　<strong>{formatAmount(item.amount)}</strong> 円
             </p>
           ))}
           {row.missingCategoryCount > 0 && (
@@ -90,9 +90,9 @@ const groupColumns: Column<DeductionGroup>[] = [
     cell: (row) => {
       const missing = row.items.filter((item) => !item.certificate_image).length;
       return missing > 0 ? (
-        <span className="c-txt__xs c-txt--alert">未添付 {missing} 件</span>
+        <Badge tone="todo">未添付 {missing} 件</Badge>
       ) : (
-        <span className="c-txt__xs">全件あり</span>
+        <Badge tone="done">全件あり</Badge>
       );
     },
   },
@@ -114,7 +114,7 @@ export function DeductionByTypeTable({ rows }: { rows: DeductionGroup[] }) {
  * ------------------------------------------------------------------ */
 
 function Certificate({ image }: { image: Deduction['certificate_image'] }) {
-  if (!image) return <span className="color__70 c-txt__xs">未添付</span>;
+  if (!image) return <Badge tone="todo">未添付</Badge>;
 
   return (
     <a href={image.url} target="_blank" rel="noopener noreferrer" title="証明書を開く">
@@ -182,7 +182,7 @@ const detailColumns: Column<Deduction>[] = [
     header: '備考',
     cell: (deduction) =>
       deduction.note ? (
-        <p className="c-txt__xs">{deduction.note}</p>
+        <p className="c-txt__sm">{deduction.note}</p>
       ) : (
         <span className="color__70">—</span>
       ),

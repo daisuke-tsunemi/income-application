@@ -85,7 +85,7 @@ $hairline: #e1e0d9;
     summary {
       cursor: pointer;
       color: $ink-secondary;
-      font-size: .8125rem;
+      font-size: .875rem;
       font-weight: 500;
       padding: .625rem 1.75rem .625rem .5rem;
     }
@@ -106,13 +106,13 @@ $hairline: #e1e0d9;
       table {
         width: 100%;
         border-collapse: collapse;
-        font-size: .8125rem;
+        font-size: .875rem;
         // 縦に揃える数値なので等幅数字
         font-variant-numeric: tabular-nums;
       }
       th, td {
         border-bottom: 1px solid $hairline;
-        padding: .375rem .5rem;
+        padding: .5rem .625rem;
         text-align: left;
         white-space: nowrap;
       }
@@ -144,14 +144,20 @@ $hairline: #e1e0d9;
   border-radius: .5rem;
   padding: 2vh 1.5vw;
   border: 1px solid var(--border);
+  // ラベル → 値 → 補足の順で視線が流れるよう、太さと色でメリハリをつける
+  // （値だけを大きく・太く・濃くし、ラベルと補足はそれぞれ役割の異なる弱め方にする）
   &__label {
-    color: $ink-muted;
+    color: $ink-secondary;
+    font-size: .8125rem;
+    font-weight: 600;
+    line-height: 1.4;
   }
   &__value {
     color: $ink-primary;
     font-size: 1.75rem;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.2;
+    margin-top: .25rem;
     // 大きな単独数値は等幅にしない
     font-variant-numeric: normal;
     @include respond-lg {
@@ -164,9 +170,10 @@ $hairline: #e1e0d9;
     font-weight: 500;
     margin-left: .25rem;
   }
-  // どの様式のどこに転記する数字かを添える
+  // どの様式のどこに転記する数字かを添える。ラベルより軽く・淡く見せて補足だと分かるようにする
   &__note {
-    color: $ink-secondary;
+    color: $ink-muted;
+    font-weight: 400;
   }
 }
 
@@ -174,6 +181,9 @@ $hairline: #e1e0d9;
 .tile--alert {
   background-color: var(--invalid);
   border-color: var(--invalid-dark);
+  .tile__label {
+    color: var(--invalid-dark);
+  }
   .tile__value {
     color: var(--invalid-dark);
   }
@@ -194,36 +204,38 @@ $hairline: #e1e0d9;
   }
   &__note {
     color: $ink-secondary;
-    font-size: .8125rem;
+    font-size: .875rem;
   }
 }
 
-// 合計行（申告書に転記する数字）はテーブルの外に強調して置く
+// 合計行（申告書に転記する数字）はテーブルの外に強調して置く。
+// 表を眺めた先に「結局どの数字を書けばいいか」が一目で分かるよう、
+// アクセント罫と大きめの数字でセクション中もっとも強い要素にする
 .total {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: flex-end;
   gap: .375rem .75rem;
-  background-color: $surface;
-  border: 1px solid var(--border);
+  background-color: var(--bg-color);
+  border: 3px solid var(--primary);
   border-radius: .25rem;
   margin-top: .75rem;
-  padding: .625rem .875rem;
+  padding: .75rem 1rem;
   &__label {
     color: $ink-secondary;
-    font-size: .8125rem;
-    font-weight: 500;
+    font-size: .875rem;
+    font-weight: 600;
   }
   &__value {
     color: $ink-primary;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
   &__unit {
     color: $ink-secondary;
-    font-size: .8125rem;
+    font-size: .875rem;
   }
 }
 
@@ -237,7 +249,7 @@ $hairline: #e1e0d9;
     align-items: center;
     gap: .375rem;
     color: $ink-secondary;
-    font-size: .75rem;
+    font-size: .8125rem;
   }
   // 折れ線の凡例なので箱ではなく線で示す
   &__key {
@@ -255,7 +267,7 @@ $hairline: #e1e0d9;
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
   &__title {
     color: $ink-secondary;
-    font-size: .75rem;
+    font-size: .8125rem;
     margin-bottom: .25rem;
   }
   &__row {
@@ -281,15 +293,6 @@ $hairline: #e1e0d9;
     font-variant-numeric: tabular-nums;
   }
   &__name {
-    font-size: .75rem;
+    font-size: .8125rem;
   }
-}
-
-.notice {
-  background-color: #fff;
-  border: 1px solid rgba(11, 11, 11, .1);
-  border-radius: .25rem;
-  color: $ink-secondary;
-  font-size: .8125rem;
-  padding: .625rem .75rem;
 }

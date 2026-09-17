@@ -22,9 +22,10 @@
     }
   }
 }
-// 集計表は行数が少ないので、グローバルの高さ固定（70dvh）を解除する
+// 集計表は必ず全行を見せたいので、明細表向けの高さ上限・内部スクロールを解除する
 .autoHeight{
-  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
 }
 // 縦に比較する数値は等幅数字にする
 .num{

@@ -142,7 +142,7 @@ const detailColumns: Column<Expense>[] = [
     cell: (expense) => {
       // 10万円以上なのに「経費」のままなら、区分の設定漏れの可能性が高い
       if (needsAssetTypeReview(expense)) return <Badge tone="todo">区分の確認が必要</Badge>;
-      if (isPlainExpense(expense)) return <span className="color__70 c-txt__xs">経費</span>;
+      if (isPlainExpense(expense)) return <span className="color__70 c-txt__sm">経費</span>;
       return <Badge tone="note">{assetTypeOf(expense)}</Badge>;
     },
   },
@@ -176,7 +176,7 @@ const detailColumns: Column<Expense>[] = [
         <strong>{formatAmount(businessAmountOf(expense))}</strong>
       ) : (
         // 償却資産は当年の算入額が別計算になるため、ここでは金額を出さない
-        <span className="color__70 c-txt__xs">減価償却費へ</span>
+        <Badge tone="plain">減価償却費へ</Badge>
       ),
   },
   {
@@ -186,7 +186,7 @@ const detailColumns: Column<Expense>[] = [
   {
     header: '備考',
     cell: (expense) =>
-      expense.note ? <p className="c-txt__xs">{expense.note}</p> : <span className="color__70">—</span>,
+      expense.note ? <p className="c-txt__sm">{expense.note}</p> : <span className="color__70">—</span>,
   },
 ];
 
@@ -245,7 +245,7 @@ const assetColumns: Column<AssetGroup>[] = [
     cell: (row) => {
       const guide = ASSET_TYPE_GUIDE[row.assetType];
       return guide ? (
-        <p className="c-txt__xs">{guide.note}</p>
+        <p className="c-txt__sm">{guide.note}</p>
       ) : (
         <span className="color__70">—</span>
       );

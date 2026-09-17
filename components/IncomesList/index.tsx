@@ -11,7 +11,7 @@ import type { Income } from '@/libs/types';
 const clientColumns: Column<ClientIncome>[] = [
   {
     header: '所得の種類',
-    cell: (row) => <span className="c-txt__xs">{row.incomeType}</span>,
+    cell: (row) => <span className="c-txt__sm color__70">{row.incomeType}</span>,
   },
   {
     header: '種目',
@@ -99,9 +99,9 @@ const detailColumns: Column<Income>[] = [
     header: '種目',
     cell: (income) =>
       income.income_category ? (
-        <span className="c-txt__xs">{income.income_category}</span>
+        <span className="c-txt__sm">{income.income_category}</span>
       ) : (
-        <span className="color__70 c-txt__xs">{EMPTY_LABEL}</span>
+        <span className="color__70 c-txt__sm">{EMPTY_LABEL}</span>
       ),
   },
   {
@@ -123,9 +123,9 @@ const detailColumns: Column<Income>[] = [
     header: '入金日',
     cell: (income) =>
       formatDate(income.paid_date) ? (
-        <time className="c-txt__xs">{formatDate(income.paid_date)}</time>
+        <time className="c-txt__sm">{formatDate(income.paid_date)}</time>
       ) : (
-        <span className="color__70 c-txt__xs">{EMPTY_LABEL}</span>
+        <span className="color__70 c-txt__sm">{EMPTY_LABEL}</span>
       ),
   },
   {
@@ -136,7 +136,7 @@ const detailColumns: Column<Income>[] = [
   {
     header: '備考',
     cell: (income) =>
-      income.memo ? <p className="c-txt__xs">{income.memo}</p> : <span className="color__70">—</span>,
+      income.memo ? <p className="c-txt__sm">{income.memo}</p> : <span className="color__70">—</span>,
   },
 ];
 

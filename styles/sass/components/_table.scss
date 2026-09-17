@@ -31,8 +31,11 @@
     .t-table{
       min-width: 40rem;
       border-radius: .25rem;
+      // 固定 height だと行数が少ない表でも空の灰色領域ができてしまうため、
+      // 上限だけ決めてテーブル自身をスクロールさせる（少ない行はそのまま自然な高さになる）
       @include respond-lg{
-        height: 70dvh;
+        max-height: 70dvh;
+        overflow-y: auto;
       }
     }
   }

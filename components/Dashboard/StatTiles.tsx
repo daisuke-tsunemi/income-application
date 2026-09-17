@@ -20,7 +20,7 @@ export default function StatTiles({ tiles }: Props) {
       {tiles.map((tile) => (
         <div
           key={tile.label}
-          className={`c-heading--sm u-mb8 ${styles.tile} ${tile.alert ? styles['tile--alert'] : ''}`}
+          className={`${styles.tile} ${tile.alert ? styles['tile--alert'] : ''}`}
         >
           <p className={styles.tile__label}>{tile.label}</p>
           <p className={styles.tile__value}>

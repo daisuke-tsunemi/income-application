@@ -32,7 +32,7 @@ export default function UnverifiedAlert({ incomes, href }: Props) {
         <p className={styles.alert__title}>支払調書と未突合の売上があります</p>
         <p className={styles.alert__count}>{incomes.length.toLocaleString('ja-JP')} 件</p>
         {href && (
-          <Link href={href} className="c-txt__xs color__primary u-mlAuto">
+          <Link href={href} className="c-txt__sm weight__700 color__primary u-mlAuto">
             一覧で確認する
           </Link>
         )}
