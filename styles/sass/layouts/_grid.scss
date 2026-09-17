@@ -1,0 +1,27 @@
+@use "../../foundation/variables" as *;
+.grid{
+    &__2{
+        display: grid;
+        grid-template-columns: 1fr;
+        @include respond-sm {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    &__3{
+        display: grid;
+        grid-template-columns: 1fr;
+        @include respond-md {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    &__4{
+        display: grid;
+        grid-template-columns: 1fr;
+        @include respond-md {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @include respond-lg {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}

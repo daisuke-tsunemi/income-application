@@ -1,0 +1,42 @@
+@use "@/styles/foundation/variables" as *;
+.article{
+  &__none{
+    padding: 10vw 10dvh;
+    background-color: var(--gray300);
+    text-align: center;
+  }
+  &__item{
+    &Text{
+      padding:.5rem;
+      @include respond-md{
+        padding:.75rem 1rem .75rem 0;
+      }
+    }
+    &Title{
+      overflow: hidden;
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      color: #eee;
+    }
+  }
+}
+.img{
+  display:block;
+  height: 3rem;
+  width: 4rem;
+  object-fit: cover;
+  border-radius: .25rem;
+}
+.time{
+  color: #ccc;
+  font-size: .75rem;
+}
+.tag{
+  background-color: #ddd;
+  padding: .125rem .5rem;
+  border-radius: .25rem;
+  border: var(--border-dark) 1px solid;
+  color: #222;
+}

@@ -1,0 +1,69 @@
+@use "../../foundation/variables" as *;
+/* 指定のワイド以上でOFF */
+ .off{
+  display: none;
+  &__2xl{
+    display:block;
+    @include respond-2xl {
+      display:none !important;
+    }
+  }
+  &__xl{
+    display:block;
+    @include respond-xl {
+      display:none !important;
+    }
+  }
+  &__lg{
+    display:block;
+    @include respond-lg {
+      display:none !important;
+    }
+  }
+  &__md{
+    display:block;
+    @include respond-md {
+      display:none !important;
+    }
+  }
+  &__sm{
+    display:block;
+    @include respond-sm {
+      display:none !important;
+    }
+  }
+}
+/* 指定のワイド以上でON */
+.on{
+  display: block;
+  &__2xl{
+    display: none;
+    @include respond-2xl {
+      display:block;
+    }
+  }
+  &__xl{
+    display: none;
+    @include respond-xl {
+      display:block;
+    }
+  }
+  &__lg{
+    display: none;
+    @include respond-lg {
+      display:block;
+    }
+  }
+  &__md{
+    display: none;
+    @include respond-md {
+      display:block;
+    }
+  }
+  &__sm{
+    display: none;
+    @include respond-sm {
+      display:block;
+    }
+  }
+}

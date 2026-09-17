@@ -1,0 +1,193 @@
+@use "../../foundation/variables" as *;
+/* ! --------------------------------------------------
+- ボタン
+-------------------------------------------------- */
+%c-btn{
+	outline:none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: 0;
+	line-height: 1em;
+	padding: .35rem 1rem .25rem;
+	background-color: var(--primary);
+	color: hsl(var(--hue), 83%, 98%);
+	border: var(--primary) 1px solid;
+	border-radius:.25rem;
+	height: 40px;
+	min-width: 5rem;
+	transition: all 0.1s ease-in-out;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	svg{
+		fill: hsl(var(--hue), 3%, 8%);;
+	}
+  @include respond-md {
+		&:hover{
+			background-color: var(--primary-light);
+		}
+	}
+}
+[class*="c-btn"]{
+	// サイズ
+	&.lg{
+		width: 100%;
+		max-width: 20rem;
+		height: 60px;
+	}
+	&.sm{
+		height: 2rem;
+		padding: 0 1rem;
+		font-size: .75rem;
+		min-width: 4rem;
+		letter-spacing: 0;
+	}
+	&.min{
+		height: 1.5rem;
+		min-width: inherit;
+		letter-spacing: 0;
+		font-size: .75rem;
+		width: auto;
+    padding: 0 0.5rem;
+	}
+	&.wide{
+		min-width:15rem;
+	}
+	&.full{
+		width:100%;
+		max-width: inherit;
+	}
+	// inputのとき、aタグのとき
+	&:disabled,&.disabled{
+		cursor: not-allowed;
+		background: #ddd !important;
+		border-color: #ddd !important;
+		color: #fff !important;
+	}
+}
+.c-btn{
+	@extend %c-btn;
+	&__line{
+		@extend %c-btn;
+		background-color: transparent;
+		border: 1px solid var(--primary-dark);
+		color: var(--primary-dark);
+		svg{
+			fill: var(--primary-dark);
+		}
+		@include respond-md {
+			&:hover{
+				background-color: var(--primary-pale);
+			}
+		}
+	}
+	&__lineWhite{
+		@extend %c-btn;
+		background-color: transparent;
+		border: 1px solid #fff;
+		color: #fff;
+		@include respond-md {
+			&:hover{
+				background-color: var(--bg-dark);
+				backdrop-filter: blur(.5rem)
+			}
+		}
+	}
+	&__lineBlack{
+		@extend %c-btn;
+		background-color: transparent;
+		border: 1px solid var(--foreground);
+		color: var(--foreground);
+		@include respond-md {
+			&:hover{
+				background-color: var(--bg);
+				backdrop-filter: blur(.5rem)
+			}
+		}
+	}
+	// カラー
+	&--gray{
+    @extend %c-btn;
+		background-color: #efefef;
+		border-color: #ccc;
+		@include respond-md {
+			&:hover{
+				background-color: #fff;
+			}
+		}
+	}
+	&--black{
+    @extend %c-btn;
+		background-color:#222;
+		color: #fff;
+		border-color:#222;
+		svg{
+			fill: #fff;
+		}
+		@include respond-md {
+			&:hover{
+				background-color:#666;
+			}
+		}
+	}
+	&--white{
+    @extend %c-btn;
+		background-color:#fff;
+		color: var(--primary);
+		border-color:#fff;
+		svg{
+			fill: var(--primary);
+		}
+		@include respond-md {
+			&:hover{
+				background-color:#cdd2e6;
+			}
+		}
+	}
+	&--alert{
+    @extend %c-btn;
+		color:var(--invalid-dark);
+		background-color:var(--invalid);
+		border-color:var(--invalid-dark);
+		@include respond-md {
+			&:hover{
+				background-color:hsl(345, 87%, 90%);;
+			}
+		}
+	}
+	&__back{
+	padding: .25rem;
+    aspect-ratio: 1;
+    height: 28px;
+		border: 1px solid #fff;
+		border-radius:3px;
+		background-color: rgba($color: #000000, $alpha: 0.4);
+		&:hover{
+			background-color: rgba($color: #fff, $alpha: 0.2);
+		}
+  }
+  &__icon{
+		padding: 0;
+		width: fit-content;
+		border: 1px solid var(--border);
+		border-radius:3px;
+  }
+	&Line{
+    @extend %c-btn;
+		height: auto !important;
+		background-color: #07b53b;
+		border-color: #07b53b;
+		justify-content: flex-start;
+		img{
+			border-radius: .25rem;
+		}
+		@include respond-md {
+			&:hover{
+				background-color: #46cb6e;
+			}
+		}
+	}
+}

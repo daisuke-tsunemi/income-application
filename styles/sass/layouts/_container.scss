@@ -1,0 +1,24 @@
+@use "../../foundation/variables" as *;
+.container{
+    padding-inline: 3vw;
+    @include respond-xl{
+        padding-inline: 1.5vw;
+        margin: 0 auto;
+        max-width: 1280px;
+    }
+    @include respond-3xl{
+        max-width: 1440px;
+    }
+    &__800{
+        @extend .container;
+        @include respond-md{
+            max-width: 800px;
+        }
+    }
+    &__1080{
+        @extend .container;
+        @include respond-md{
+            max-width: 1080px;
+        }
+    }
+}

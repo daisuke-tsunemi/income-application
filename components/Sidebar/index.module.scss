@@ -1,0 +1,23 @@
+@use "@/styles/foundation/variables" as *;
+.sidebar {
+  width: 100%;
+  &__inner{
+    padding: .5rem;
+    background-color: var(--bg);
+    border-radius: .5rem;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    @include respond-lg{
+      padding: 2rem .5rem;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1rem;
+      position: sticky;
+      top: .5vh;
+      max-height: 99vh;
+    }
+  }
+}
+
+

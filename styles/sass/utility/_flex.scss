@@ -1,0 +1,32 @@
+.u-auto {
+  flex: auto;
+}
+.u-align {
+  display: flex;
+  align-items: center;
+  // 縦並び
+  &.vertical {
+    flex-direction: column;
+  }
+  // 中央よせ
+  &.center {
+    justify-content: center;
+  }
+  &.between {
+    justify-content: space-between;
+  }
+  // ボタン用右よせ
+  &.end {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+  &.bottom {
+    align-items: flex-end;
+  }
+  &.start {
+    align-items: flex-start;
+  }
+  &.wrap {
+    flex-wrap: wrap;
+  }
+}

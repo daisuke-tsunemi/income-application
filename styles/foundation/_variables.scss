@@ -1,0 +1,45 @@
+// ブレイクポイント
+$breakpoint-xs: 560px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1440px;
+$breakpoint-3xl: 1920px;
+
+// Mixin（例：レスポンシブ用）
+@mixin respond-xs {
+  @media (min-width: $breakpoint-xs) {
+    @content;
+  }
+}
+@mixin respond-sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+@mixin respond-md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+@mixin respond-lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+@mixin respond-xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+@mixin respond-2xl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
+}
+@mixin respond-3xl {
+  @media (min-width: $breakpoint-3xl) {
+    @content;
+  }
+}

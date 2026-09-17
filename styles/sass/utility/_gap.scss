@@ -1,0 +1,27 @@
+@use "../../foundation/variables" as *;
+.u-gap{
+  &4{
+    gap: .25rem;
+  }
+  &8{
+    gap: .25rem;
+    @include respond-sm {
+      gap: .5rem;
+    }
+  }
+  &16{
+    gap: .5rem;
+    @include respond-sm {
+      gap: 1rem;
+    }
+  }
+  &24{
+    gap: 1.5rem;
+  }
+  &32{
+    gap: 2rem;
+  }
+  &40{
+    gap: 2.5rem;
+  }
+}

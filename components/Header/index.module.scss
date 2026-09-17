@@ -1,0 +1,11 @@
+@use "@/styles/foundation/variables" as *;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  // layout.main の gap: 1.5rem 相当（Header が wrapperContent 内に移動したため）
+  margin-bottom: 1.5rem;
+}
+
+

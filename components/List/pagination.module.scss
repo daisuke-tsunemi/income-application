@@ -1,0 +1,28 @@
+@use "@/styles/foundation/variables" as *;
+.pagination{
+  margin-block-start: 3rem;
+  &__list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+    &Btn,&Current{
+      background-color: var(--bg-white);
+      border: var(--border) 1px solid;
+      padding:.25rem .5rem;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      height: 2rem;
+      font-size: .875rem;
+      &:hover{
+        border-color: var(--primary);
+      }
+    }
+    &Current{
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+      color: white;
+    }
+  }
+}

@@ -1,0 +1,115 @@
+@use "../../foundation/variables" as *;
+/* ! ==================================================
+- テキスト
+================================================== */
+%c-txt {
+  color: var(--text);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.618em;
+  letter-spacing: 0.02em;
+  word-break:break-word;
+}
+.c-txt{
+  &__2xl {
+    @extend %c-txt;
+    letter-spacing: .08em;
+    font-size: clamp(1.75rem,2.5vw,2.5rem);
+  }
+  &__xl {
+    @extend %c-txt;
+    font-size: clamp(1.5rem,2.25vw,2rem);
+  }
+  &__lg {
+    @extend %c-txt;
+    @include respond-sm {
+      font-size: clamp(1.25rem,2vw,1.25rem);
+    }
+  }
+  &__md {
+    @extend %c-txt;
+  }
+  &__sm {
+    @extend %c-txt;
+    font-size: 0.875rem;
+    letter-spacing: 0;
+  }
+  &__sm {
+    @extend %c-txt;
+    font-size: 0.875rem;
+    letter-spacing: 0;
+  }
+  &__xs {
+    @extend %c-txt;
+    font-size: 0.75rem;
+    letter-spacing: 0;
+  }
+  &__min {
+    font-size: 0.7rem;
+    line-height: 1.2em;
+    letter-spacing: 0;
+    opacity: .8;
+  }
+  &__unit {
+    font-size: 0.75rem;
+    line-height: 1em;
+    letter-spacing: 0;
+    display: inline-block;
+    opacity: .6;
+  }
+  &--alert {
+    color: var(--invalid-dark);
+  }
+  &--error {
+    color: var(--invalid-dark);
+    border: 1px solid;
+    padding: .125rem .5rem;
+    background-color: var(--invalid);
+    border-radius: .25rem;
+    margin-block-start: .5rem;
+    display: inline-block;
+  }
+  &--green {
+    color: var(--green);
+    border: 1px solid;
+    padding: .125rem .5rem;
+    background-color: white;
+    border-radius: .25rem;
+    margin-block-start: .5rem;
+    display: inline-block;
+    font-size: 13px;
+  }
+  &__height--1 {line-height: 1;}
+  &__space--wrap {white-space: pre-wrap;}
+  &--capital{
+    text-transform: uppercase;
+  }
+}
+.u{
+  &-center {text-align: center;}
+  &-right {text-align: right;line-height:1;}
+}
+.color{
+  &__white{
+    color: white;
+  }
+  &__70{
+    opacity: .7;
+  }
+  &__black{
+    color: black;
+  }
+  &__primary{
+    color: var(--primary);
+    &Dark{
+      color: var(--primary-dark);
+    }
+  }
+}
+.weight__{
+  &100 {font-weight: 100;}
+  &200 {font-weight: 200;}
+  &500 {font-weight: 500;}
+  &700 {font-weight: 700;}
+  &900 {font-weight: 900;}
+}

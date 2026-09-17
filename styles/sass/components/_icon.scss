@@ -1,0 +1,31 @@
+.icon{
+	display:inline-block;
+	vertical-align: middle;
+	border-radius:4px;
+	aspect-ratio: 1/1;
+	width: 1.25em;
+	&__w12{ @extend .icon;width: 12px;}
+	&__w16{ @extend .icon;width: 16px;}
+	&__w20{ @extend .icon;width: 20px;}
+	&__w24{ @extend .icon;width: 24px;}
+  &__w28{ @extend .icon;width: 28px;}
+	&__w32{ @extend .icon;width: 32px;}
+	&__w40{ @extend .icon;width: 40px;}
+	&__w48{ @extend .icon;width: 48px;}
+	&__w56{ @extend .icon;width: 56px;}
+	&__w64{ @extend .icon;width: 64px;}
+	&__w72{ @extend .icon;width: 72px;}
+	&__square{border-radius:0 !important;}
+	&__circle{border-radius:50% !important;}
+}
+.fill{
+	&__white{
+		fill: white;
+	}
+	&__primary{
+		fill:var(--primary);
+		&Dark{
+			fill:var(--primary-dark);
+		}
+	}
+}

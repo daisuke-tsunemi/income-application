@@ -1,0 +1,303 @@
+@use "../../foundation/variables" as *;
+/* ! --------------------------------------------------
+- インプット
+-------------------------------------------------- */
+/* デフォルトリセットなど */
+button { outline: none;}
+select::-ms-expand { display: none;}
+input:-webkit-autofill {-webkit-box-shadow: 0 0 0px 1000px #fbf1f1 inset;}
+input[type="radio"],input[type="checkbox"]{
+  display:none;
+}
+input[type="file"]{
+  padding: .5rem;
+  height: auto;
+  cursor: pointer;
+}
+label{
+  display: block;
+  &:has(input[type="radio"]), &:has(input[type="checkbox"]){
+    cursor: pointer;
+  }
+}
+fieldset{
+  border: none;
+}
+//共通要素
+%input {
+  font-size: .825rem; 
+  height: 2.5rem;
+  padding: 0 .5rem;
+  border: 1px solid var(--primary-dark);
+  border-radius: .125rem;
+  color: var(--text);
+  background-color: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  &:focus{
+    border-color: var(--primary-dark)
+  }
+}
+// プレイスホルダー
+::-webkit-input-placeholder { color: var(--text-light);}
+:-ms-input-placeholder { color: var(--text-light);}
+::-moz-placeholder { color: var(--text-light);}
+// -- インプット search number file checkbox radio submit 
+input {
+  @extend %input;
+  &[type="number"] {
+    -moz-appearance:textfield;
+  }
+  &[type="number"]::-webkit-outer-spin-button,&[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: .25rem;
+  }
+  &[type="color"] {
+    cursor: pointer;
+    padding: 0.25rem;
+    height: 60px;
+  }
+}
+textarea {
+  @extend %input;
+  padding: .5rem;
+  resize:vertical;
+  min-height: 10rem;
+  width: 100%;
+  @include respond-sm {
+    min-height:12.5rem;
+  }
+}
+select{
+  @extend %input;
+  color:var(--text);
+  padding-right:1.5rem;
+  background-image: url('data:image/svg+xml;utf8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6L8 10L12 6" stroke="%23b8c2df" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-size: 0.75rem;
+  background-position: right 4px center;
+  background-repeat: no-repeat;
+}
+input[readonly],select[readonly],textarea[readonly]{
+  border: none;
+  background: rgba($color: #F0E5FE, $alpha: 0.9);
+}
+.c-input {
+  display:inline-flex;
+  position: relative;
+  border-radius: 0.25rem;
+  border: 1px solid #CCC;
+  background: #FFF;
+  height: 3rem;
+  padding: 1rem;
+}
+// -- チェックボックス&ラジオボタン
+.c-checkbox,.c-radio{
+  position:relative;
+}
+.c-checkbox{
+  &:has(input[type="checkbox"]){
+    padding: .5rem .5rem .5rem 2rem;
+    background-color: #fff;
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    display: inline-flex;
+    border-radius:4px;
+    &:before{
+      content: '';
+      border: 1px solid var(--border);
+      height:1rem;
+      width:1rem;
+      border-radius:3px;
+      position:absolute;
+      top:.5rem;
+      left:.5rem;
+    }
+    &:after{
+      content: none;
+      border-right: 3px solid var(--primary-dark);
+      border-bottom: 3px solid var(--primary-dark);
+      height: .6rem;
+      width: .3rem;
+      transform: rotate(45deg);
+      position:absolute;
+      top:.55rem;
+      left:.8125rem;
+    }
+  }
+  &:has(input[type="checkbox"]:checked){
+    border-color:var(--primary-dark);
+    background-color: var(--primary-light);
+    color: var(--text);
+    &:before{
+      border-color:var(--primary-dark);
+      background-color: #fff;
+    }
+    &:after{
+      content: '';
+    }
+  }
+}
+.c-switch{
+  input[type="checkbox"]{
+    display:none;
+    +label{
+      width:50px;
+      height: 24px;
+      background-color: var(--bg-light);
+      border-radius: 12px;
+      position:relative;
+      transition: all 0.2s ease;
+      &:before{
+        height:20px; width:20px;
+        display: block;
+        content: '';
+        z-index: 1;
+        background-color: #fff;
+        position:absolute;
+        top: 50%;
+        left: 2px;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+      &:after{
+        position:absolute;top:5px;right:-55px;
+        content: '未対応';
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--invalid);
+        display: block;
+        height:inherit; width:inherit;
+      }
+    }
+    &:checked{
+      +label{
+        background-color:var(--valid);
+        &:before{
+          left: 28px;
+        }
+        &:after{
+          content: '対応済';
+          color: var(--valid);
+        }
+      }
+    }
+  }
+  &__publish{
+    input[type="checkbox"]{
+      +label{
+        &:after{
+          content: '未公開';
+        }
+      }
+      &:checked{
+        +label{
+          &:after{
+            content: '公開中';
+          }
+        }
+      }
+    }
+  }
+}
+label[class*="c-status__color"]{
+  opacity: .3;
+  &:has(input:checked){
+    opacity: 1;
+  }
+}
+// -- ラジオ
+.c-radio {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.5rem;
+  label{
+    &:has(input[type="radio"]){
+      padding: .5rem .5rem .5rem 2rem;
+      background-color: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      position:relative;
+      display: inline-flex;
+      border-radius:4px;
+      &:before{
+        content: '';
+        border: 1px solid var(--border);
+        height:1rem;
+        width:1rem;
+        border-radius:50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(0,-50%);
+        left:.5rem;
+      }
+      &:after{
+        background-color: var(--border);
+        height:.5rem;
+        width:.5rem;
+        border-radius:50%;
+        position:absolute;
+        top: 50%;
+        transform: translate(0,-50%);
+        left: 13px;
+      }
+    }
+    &:has(input[type="radio"]:checked){
+      border-color:var(--primary-dark);
+      color: var(--primary-dark);
+      &:before{
+        border-color:var(--primary-dark);
+      }
+      &:after{
+        content: '';
+        background-color:var(--primary-dark);
+      }
+    }
+  }
+}
+/* 住所などインプット要素を縦に並べる場合 */
+.c-input--column > .c-input + .c-input {
+  margin: 4px 0 0;
+}
+/* プレイスホルダー */
+input::-webkit-input-placeholder { color:rgba(0,0,0,.25);line-height: normal;}
+input:-ms-input-placeholder { color:rgba(0,0,0,.25);line-height: normal;}
+input::-moz-placeholder { color:rgba(0,0,0,.25);line-height: normal;}
+textarea::-webkit-input-placeholder { color:rgba(0,0,0,.25);line-height: normal;}
+label{
+  &:has(input:disabled){
+    color: var(--text-light);
+    cursor: inherit;
+    input{
+      border-color: var(--border-light);
+    }
+  }
+  &:has(input:checked){
+    cursor: inherit;
+    input{
+      border-color: var(--valid);
+      background-color: #fff;
+    }
+  }
+}
+.required,.optional{
+  &:before{
+    content:'必須';
+    margin-inline-end: .5rem;
+    background-color: var(--primary-dark);
+    border: var(--primary-dark) 1px solid;
+    color: white;
+    padding: .125rem .25rem;
+    display: inline-block;
+    font-size: .75rem;
+    line-height:1;
+  }
+}
+.optional{
+  &:before{
+    content:'任意';
+    color: var(--primary-dark);
+    background-color: white;
+  }
+}

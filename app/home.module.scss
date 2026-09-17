@@ -1,0 +1,89 @@
+@use "@/styles/foundation/variables" as *;
+.img{
+  height: auto;
+}
+.section{
+  &__title{
+    position:relative;
+    h2{
+      position:relative;
+      z-index: 1;
+    }
+  }
+  &__content{
+    position:relative;
+    z-index: 1;
+    @include respond-md{
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 3fr 2fr;
+    }
+    @include respond-lg{
+      gap: 3rem;
+    }
+    @include respond-xl{
+      gap: 5rem;
+    }
+  }
+  &__pic{
+    min-width: 1px;
+    @include respond-md{
+      justify-content: flex-end;
+      display: flex;
+    }
+  }
+  &__img{
+    width: 100%;
+    height: auto;
+    height: 50vh;
+    border-radius: 1rem;
+    object-fit: cover;
+    box-shadow: 2vw 3vh 8px rgba(0, 139, 154, 0.1);
+    @include respond-md{
+      border-radius: 2rem;
+    }
+  }
+  &__text{
+    min-width: 1px;
+  }
+}
+.cta{
+  background: var(--primary-light) url(/img/common/bg/bg-gradient.webp) no-repeat center;
+  background-size: cover;
+  border-radius: .5rem;
+  position: relative;
+  z-index: 1;
+  padding: 3vw;
+}
+.quote{
+  background-color: var(--bg-color);
+  padding: 1rem;
+  position:relative;
+  border-radius: 0 2rem 0 2rem;
+  position:relative;
+  @include respond-md{
+    padding: 2rem;
+  }
+  &:before, &:after{
+    content: '';
+    height: 2.5rem;
+    width: 2.5rem;
+    display: block;
+    position: absolute;
+    background:url(/icon/quote.webp) no-repeat center;
+    background-size:contain;
+    @include respond-md{
+      height: 4vw;
+      width: 4vw;
+    }
+  }
+  &:before{
+    top: -1.25rem;
+    left: -.75rem;
+  }
+  &:after{
+    bottom: -1.25rem;
+    right: -.75rem;
+    scale: -1;
+  }
+}

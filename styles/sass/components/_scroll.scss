@@ -1,0 +1,34 @@
+@use "../../foundation/variables" as *;
+/* ! --------------------------------------------------
+- scroll
+-------------------------------------------------- */
+.c-scroll{
+  overflow: auto;
+  border-radius: .25rem;
+  $i: 2;
+  @while $i <= 8 {
+    &__height--#{$i}00 {
+        @extend .c-scroll;
+      height: (100px * $i);
+    }
+    &__height--#{$i}50 {
+        @extend .c-scroll;
+      height: (100px * $i + 50px);
+    }
+    $i: $i + 1;
+  }
+  &__inner{
+    padding: 4px;
+    $i: 5;
+    @while $i <= 14 {
+      &--#{$i}00 {
+        padding: 4px;
+        min-width: (100px * $i);
+      }
+      $i: $i + 1;
+    }
+    @include respond-md {
+      min-width: inherit !important;
+    }
+  }
+}

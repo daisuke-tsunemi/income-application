@@ -1,0 +1,24 @@
+/* ——————————————————————————————————————————————————————————————
+margin
+—————————————————————————————————————————————————————————————— */
+.u-m0 {
+  margin: 0 !important;
+}
+.u-mlAuto{
+  margin-inline-start: auto;
+}
+
+// margin-top
+@for $i from 0 through 50 {
+  $num: $i * 4;
+  .u-mt#{$num} {
+    margin-top: #{$num}px;
+  }
+}
+// margin-bottom
+@for $i from 0 through 50 {
+  $num: $i * 4;
+  .u-mb#{$num} {
+    margin-bottom: #{$num}px;
+  }
+}

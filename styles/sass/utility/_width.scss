@@ -1,0 +1,36 @@
+@use "../../foundation/variables" as *;
+/* ——————————————————————————————————————————————————————————————
+width
+—————————————————————————————————————————————————————————————— */
+.u-w{
+  &50p {
+    width: 50%;
+  }
+  &100p {
+    width: 100%;
+  }
+}
+@for $i from 1 through 50 {
+  $num: $i * 10;
+  .u-w#{$num} {
+    width: #{$num}px;
+  }
+}
+input{
+  @for $i from 16 through 50 {
+    $num: $i * 10;
+    &.u-w#{$num} {
+      width: 100%;
+    }
+  }
+}
+@include respond-sm {
+  input{
+    @for $i from 16 through 50 {
+      $num: $i * 10;
+      &.u-w#{$num} {
+        width: #{$num}px;
+      }
+    }
+  }
+}

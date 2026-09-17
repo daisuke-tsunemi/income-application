@@ -1,0 +1,257 @@
+@use "@/styles/foundation/variables" as *;
+
+// チャート用のインク・面（chartTheme.ts と対で管理する。片方だけ変えないこと）
+$surface: #f1f4f7;
+$ink-primary: #0b0b0b;
+$ink-secondary: #52514e;
+$ink-muted: #898781;
+$hairline: #e1e0d9;
+
+// 絞り込みは全チャートの上に1行でまとめる（チャートごとに置かない）
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem .75rem;
+  margin-bottom: 1.5rem;
+  position:relative;
+  &__label {
+    color: $ink-secondary;
+    font-size: .8125rem;
+    font-weight: 500;
+  }
+  &__input {
+    background-color: #fff;
+    border: 1px solid var(--border-dark);
+    border-radius: .25rem;
+    color: $ink-primary;
+    font-size: .875rem;
+    padding: .375rem .5rem;
+    font-variant-numeric: tabular-nums;
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 1px;
+    }
+  }
+  &__range {
+    color: $ink-secondary;
+    font-size: .8125rem;
+    strong {
+      color: $ink-primary;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+  &__reset {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-size: .8125rem;
+    padding: .25rem;
+    text-decoration: underline;
+  }
+}
+.robot{
+  position: absolute;
+  bottom: -5vh;
+  right:-2vw;
+  height: auto;
+  width: clamp(2rem, 30vw, 12.5rem);
+  @include respond-md {
+    bottom: -3rem;
+  }
+  @include respond-md {
+    bottom: -5rem;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  @include respond-lg {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// 推移グラフは横に長く取りたいので全幅
+.grid__wide {
+  @include respond-lg {
+    grid-column: 1 / -1;
+  }
+}
+
+.card {
+  background-color: $surface;
+  border-radius: .5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  // 軸ラベルまで収まるよう高さは内容に追従させる
+  min-width: 0;
+  // グローバルの details（アコーディオンカード）はチャート内では主張が強すぎるので抑える
+  &__table {
+    margin-top: 1rem;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    border-top: 1px solid $hairline;
+    &:after {
+      height: 1rem;
+      width: 1rem;
+      top: .625rem;
+      right: 0;
+      @media screen and (min-width: 640px) {
+        top: .625rem;
+      }
+    }
+    summary {
+      cursor: pointer;
+      color: $ink-secondary;
+      font-size: .8125rem;
+      font-weight: 500;
+      padding: .625rem 1.75rem .625rem .5rem;
+    }
+    &Body {
+      margin-top: .75rem;
+      overflow-x: auto;
+      border-radius: .25rem;
+      border: var(--border) 1px solid;
+      // 見出しは視覚的には隠し、支援技術には残す
+      caption {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: .8125rem;
+        // 縦に揃える数値なので等幅数字
+        font-variant-numeric: tabular-nums;
+      }
+      th, td {
+        border-bottom: 1px solid $hairline;
+        padding: .375rem .5rem;
+        text-align: left;
+        white-space: nowrap;
+      }
+      th {
+        color: $ink-secondary;
+        font-weight: 500;
+      }
+      td {
+        color: $ink-primary;
+      }
+      .num {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.tiles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  @include respond-lg {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tile {
+  background-color: $surface;
+  border-radius: .5rem;
+  padding: 3vh 2.5vw;
+  border: 1px solid var(--border);
+  &__label {
+    color: $ink-secondary;
+    font-size: .8125rem;
+    margin-bottom: .375rem;
+  }
+  &__value {
+    color: $ink-primary;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    // 大きな単独数値は等幅にしない
+    font-variant-numeric: normal;
+    @include respond-lg {
+      font-size: 2rem;
+    }
+  }
+  &__unit {
+    color: $ink-secondary;
+    font-size: .875rem;
+    font-weight: 500;
+    margin-left: .25rem;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-left: 3.5rem;
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+    color: $ink-secondary;
+    font-size: .75rem;
+  }
+  // 折れ線の凡例なので箱ではなく線で示す
+  &__key {
+    width: 1rem;
+    height: 2px;
+    border-radius: 1px;
+  }
+}
+
+.tooltip {
+  background-color: #fff;
+  border: 1px solid rgba(11, 11, 11, .1);
+  border-radius: .25rem;
+  padding: .5rem .625rem;
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+  &__title {
+    color: $ink-secondary;
+    font-size: .75rem;
+    margin-bottom: .25rem;
+  }
+  &__row {
+    display: flex;
+    align-items: baseline;
+    gap: .375rem;
+    & + & {
+      margin-top: .125rem;
+    }
+  }
+  // 系列キーは塗り箱ではなく短い線
+  &__key {
+    flex: none;
+    width: .75rem;
+    height: 2px;
+    border-radius: 1px;
+    align-self: center;
+  }
+  &__value {
+    color: $ink-primary;
+    font-size: .875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  &__name {
+    font-size: .75rem;
+  }
+}
+
+.notice {
+  background-color: #fff;
+  border: 1px solid rgba(11, 11, 11, .1);
+  border-radius: .25rem;
+  color: $ink-secondary;
+  font-size: .8125rem;
+  padding: .625rem .75rem;
+}

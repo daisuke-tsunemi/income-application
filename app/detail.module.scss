@@ -1,0 +1,183 @@
+@use "@/styles/foundation/variables" as *;
+.wrapper {
+  display: grid;
+  gap: 3vh 2vw;
+  @include respond-lg{
+    grid-template-columns: 17.5rem 1fr;
+  }
+  >*{
+    min-width: 1px;
+  }
+}
+.tag{
+  padding:.125rem .5rem;
+  background-color: var(--bg-dark);
+  border-radius: .5rem;
+  color: black;
+  @include respond-lg{
+    &:hover{
+      opacity: .7;
+    }
+  }
+}
+.description {
+  color: var(--text-light);
+  margin: 1.5rem 0;
+  @include respond-lg{
+    text-align: center;
+  }
+}
+.list{
+  dd{
+  border-bottom: 1px dotted #888;
+  }
+}
+.meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  font-size: 0.9rem;
+  @include respond-3xl{
+    margin-bottom: 4rem;
+  }
+}
+
+.thumbnail {
+  height: auto;
+  width: 100%;
+  margin-bottom:1rem;
+  border-radius: .5rem;
+  max-width: 25rem;
+  display:block;
+}
+
+.content {
+  width: 100%;
+  background-color: var(--bg-light);
+  padding: .5rem;
+  border-radius: .5rem;
+  @include respond-md{
+    padding: 1rem;
+    box-shadow: 0px .25rem .5rem rgba(0, 0, 0, .1);
+  }
+  *:first-child {
+    margin-top: 0;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border);
+    margin: 0 0 1rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 0 0 1rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0 0 1rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 1rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 1rem;
+  }
+
+  p {
+    margin: 0 0 0.75rem;
+    line-height: 2;
+  }
+
+  pre {
+    overflow-x: auto;
+  }
+
+  pre > code {
+    background-color: var(--bg-code);
+    display: block;
+    overflow-x: auto;
+    padding: 1rem;
+  }
+
+  div[data-filename]::before {
+    display: inline-block;
+    background-color: var(--bg-sub);
+    content: attr(data-filename);
+    margin: 1em 0 0;
+    font-family: menlo, inconsolata, monospace;
+    font-size: 0.8rem;
+    padding: 4px 1rem;
+    border-radius: .25rem .25rem 0 0;
+  }
+
+  ul, ol {
+    margin: 0 0 2rem 2rem;
+  }
+  ul > li {
+    list-style: disc;
+  }
+  ol > li {
+    list-style: decimal;
+  }
+  li {
+    margin: 0.5rem 0;
+  }
+  a {
+    @include respond-lg{
+      &:hover{
+        text-decoration: underline;
+        color: var(--primary);
+      }
+    }
+  }
+  figure {
+    margin: 2rem 0;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    figcaption {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+  }
+  strong {
+    font-weight: bold;
+  }
+  blockquote {
+    border-left: 4px solid var(--border);
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 2rem 0;
+  }
+  hr {
+    margin: 3vh 0;
+    height: 1px;
+    background-color: var(--border);
+    border: none;
+  }
+  table {
+    width: 100%;
+    margin: 2rem 0;
+    th {
+      text-align: left;
+    }
+    td {
+      text-align: left;
+    }
+  }
+  iframe{
+    max-width: 400px !important;
+  }
+}
+

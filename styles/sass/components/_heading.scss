@@ -1,0 +1,42 @@
+@use "../../foundation/variables" as *;
+.c-heading{
+  font-weight: 700;
+  line-height: 1.41;
+  &--4xl{
+    @extend .c-heading;
+    font-size: 2.5rem;
+    @include respond-md {
+      font-size: 3rem;
+    }
+  }
+  &--3xl{
+    @extend .c-heading;
+    font-size: 2rem;
+    @include respond-md {
+      font-size: 2.5rem;
+    }
+  }
+  &--2xl{
+    @extend .c-heading;
+    font-size: 1.75rem;
+    @include respond-md {
+      font-size: 2rem;
+    }
+  }
+  &--xl{
+    @extend .c-heading;
+    font-size: 1.5rem;
+  }
+  &--lg{
+    @extend .c-heading;
+    font-size: 1.25rem;
+  }
+  &--md{
+    @extend .c-heading;
+    font-size: 1rem;
+  }
+  &--sm{
+    @extend .c-heading;
+    font-size: .875rem;
+  }
+}

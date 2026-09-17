@@ -1,0 +1,30 @@
+.f-item{
+  margin-block-end: 1.5rem;
+  &:last-child{
+    margin:0;
+  }
+  .required{
+    &:before{
+      content:'必須';
+      color: var(--alert);
+      border: 1px solid;
+      line-height: 1;
+      padding: .125rem .25rem;
+      border-radius: .125rem;
+      font-size: 11px;
+      margin-inline-end: .25rem;
+    }
+  }
+  .optional{
+    &:before{
+      content:'任意';
+      color: var(--text);
+      border: 1px solid;
+      line-height: 1;
+      padding: .125rem .25rem;
+      border-radius: .125rem;
+      font-size: 11px;
+      margin-inline-end: .25rem;
+    }
+  }
+}
