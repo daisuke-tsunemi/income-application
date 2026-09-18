@@ -94,6 +94,39 @@
   }
 }
 
+/* インボイス経過措置（2割特例・3割特例）の概算納付額。有利な選択肢なので valid（緑系）で目立たせる */
+.relief {
+  background-color: #fff;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--valid);
+  border-radius: .375rem;
+  padding: .875rem 1rem;
+  &__label {
+    color: var(--text-dark);
+    font-size: .9375rem;
+    font-weight: 700;
+  }
+  &__value {
+    color: var(--valid);
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: .375rem;
+  }
+  &__unit {
+    color: var(--text-light);
+    font-size: .875rem;
+    font-weight: 500;
+    margin-left: .25rem;
+  }
+  &__note {
+    color: var(--text-light);
+    font-size: .8125rem;
+    line-height: 1.7;
+    margin-top: .5rem;
+  }
+}
+
 /* 未確認・未入金など、対応が必要な項目を並べる枠 */
 .alert {
   background-color: var(--invalid);
@@ -106,16 +139,11 @@
     align-items: baseline;
     gap: .5rem;
     margin-bottom: .75rem;
-  }
-  &__title {
-    color: var(--invalid-dark);
-    font-size: .9375rem;
-    font-weight: 700;
+    >p{
+      color: var(--invalid-dark);
+    }
   }
   &__count {
-    color: var(--invalid-dark);
-    font-size: .875rem;
-    font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
   &__list {
@@ -123,14 +151,10 @@
     gap: .375rem;
   }
   &__item {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
     gap: .25rem .75rem;
     background-color: #fff;
     border-radius: .25rem;
     padding: .5rem .75rem;
-    font-size: .875rem;
     time {
       color: var(--text-light);
       font-variant-numeric: tabular-nums;
@@ -141,7 +165,6 @@
     }
   }
   &__amount {
-    margin-left: auto;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }

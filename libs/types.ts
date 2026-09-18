@@ -45,6 +45,9 @@ export type Income = MicroCMSBase & {
   amount?: number;
   /** 源泉徴収税額。源泉なしの取引先は 0 */
   tax_withheld?: number;
+  // セレクトフィールドは配列で返る（'10%' | '8%'）。課税事業者になった場合の消費税額試算用。
+  // 未設定は「対象外」ではなく「まだ入力していない」の可能性もあるため区別できない
+  tax_rate?: string[];
   /** 支払調書と突き合わせ済みか */
   is_verified?: boolean;
   /** 第二表「所得の内訳」の種目（原稿料・デザイン料など） */
@@ -65,6 +68,8 @@ export type Expense = MicroCMSBase & {
   asset_type?: string[];
   /** 支払総額（家事分を含む） */
   amount?: number;
+  // セレクトフィールドは配列で返る（'10%' | '8%'）。課税事業者になった場合の仕入税額控除試算用
+  tax_rate?: string[];
   /** 事業割合（%）。未設定は 100% とみなす */
   business_ratio?: number;
   /** 按分の根拠（床面積比など）。税務調査で問われる */

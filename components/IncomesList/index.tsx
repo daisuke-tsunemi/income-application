@@ -110,6 +110,15 @@ const detailColumns: Column<Income>[] = [
     cell: (income) => <strong>{formatAmount(income.amount)}</strong>,
   },
   {
+    header: '税率',
+    cell: (income) =>
+      income.tax_rate?.[0] ? (
+        <span className="c-txt__sm">{income.tax_rate[0]}</span>
+      ) : (
+        <span className="color__70 c-txt__sm">未設定</span>
+      ),
+  },
+  {
     header: '源泉徴収税額（円）',
     align: 'right',
     cell: (income) =>

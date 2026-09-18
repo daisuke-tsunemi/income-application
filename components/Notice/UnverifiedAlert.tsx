@@ -29,21 +29,21 @@ export default function UnverifiedAlert({ incomes, href }: Props) {
   return (
     <div className={styles.alert}>
       <div className={styles.alert__head}>
-        <p className={styles.alert__title}>支払調書と未突合の売上があります</p>
-        <p className={styles.alert__count}>{incomes.length.toLocaleString('ja-JP')} 件</p>
+        <p className={`c-heading--md`}>支払調書と未突合の売上があります</p>
+        <p className={`${styles.alert__count} c-txt__lg weight__700`}>{incomes.length.toLocaleString('ja-JP')}<small> 件</small></p>
         {href && (
-          <Link href={href} className="c-txt__sm weight__700 color__primary u-mlAuto">
+          <Link href={href} className="c-btn__lineBlack sm u-mlAuto">
             一覧で確認する
           </Link>
         )}
       </div>
       <ul className={styles.alert__list}>
         {shown.map((income) => (
-          <li key={income.id} className={styles.alert__item}>
+          <li key={income.id} className={`${styles.alert__item} u-align wrap`}>
             <time>{formatDate(income.date) ?? '日付未設定'}</time>
             <strong>{income.client?.name ?? '取引先未設定'}</strong>
-            <span className={styles.alert__amount}>
-              {formatAmount(income.amount)} 円
+            <span className={`${styles.alert__amount} u-mlAuto`}>
+              {formatAmount(income.amount)} <small>円</small>
               {(income.tax_withheld ?? 0) > 0 && (
                 <>（源泉 {formatAmount(income.tax_withheld)} 円）</>
               )}

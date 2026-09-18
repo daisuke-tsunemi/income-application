@@ -217,11 +217,9 @@ $hairline: #e1e0d9;
   align-items: baseline;
   justify-content: flex-end;
   gap: .375rem .75rem;
-  background-color: var(--bg-color);
-  border: 3px solid var(--primary);
-  border-radius: .25rem;
-  margin-top: .75rem;
-  padding: .75rem 1rem;
+  border-top: 2px solid var(--primary);
+  margin-top: .25rem;
+  padding: .5rem 1rem;
   &__label {
     color: $ink-secondary;
     font-size: .875rem;

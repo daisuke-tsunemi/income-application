@@ -12,11 +12,11 @@ export const YEAR_OPTIONS_COUNT = 5;
 
 /** 集計に必要な項目だけ取得する（参照先は表示に使うフィールドのみ） */
 export const INCOME_FIELDS =
-  'id,date,amount,tax_withheld,is_verified,income_category,paid_date,memo,' +
+  'id,date,amount,tax_rate,tax_withheld,is_verified,income_category,paid_date,memo,' +
   'client.id,client.name,client.address,client.income_type';
 
 export const EXPENSE_FIELDS =
-  'id,date,payee,payment_method,asset_type,amount,business_ratio,ratio_basis,invoice_number,receipt_images,note,' +
+  'id,date,payee,payment_method,asset_type,amount,tax_rate,business_ratio,ratio_basis,invoice_number,receipt_images,note,' +
   'category.id,category.name,category.sort_order';
 
 export const DEDUCTION_FIELDS =
@@ -129,7 +129,7 @@ export const UNCOVERED_ITEMS = {
   overall: [
     '貸借対照表（青色申告特別控除65万円の適用に必須）',
     '青色申告特別控除額の計算',
-    '消費税の申告（課税事業者の場合）',
+    '消費税の申告（税率別の内訳は参考表示のみ。納税額の計算・申告書の作成は別途）',
   ],
 } as const;
 
@@ -141,6 +141,12 @@ export const DEPRECIABLE_THRESHOLD = 100_000;
 
 /** asset_type のうち、決算書の「経費」欄にそのまま計上してよい唯一の区分 */
 export const ASSET_TYPE_EXPENSE = '経費（10万円未満）';
+
+/** 少額減価償却資産の特例（措法28の2）の asset_type 値。年間合計300万円の上限判定に使う */
+export const ASSET_TYPE_SMALL_SPECIAL = '少額減価償却資産の特例（30万円未満・青色）';
+
+/** 少額減価償却資産の特例の年間上限額（青色申告者のみ・個人事業者） */
+export const SMALL_SPECIAL_ANNUAL_LIMIT = 3_000_000;
 
 /**
  * 経費区分ごとの取り扱い。
@@ -164,7 +170,7 @@ export const ASSET_TYPE_GUIDE: Record<string, AssetTypeGuide> = {
     carryFullAmount: false,
     note: '取得価額を3年で均等に償却する。当年に算入できるのは原則として取得価額の3分の1で、取得年より前の資産も同額ずつ続く。',
   },
-  '少額減価償却資産の特例（30万円未満・青色）': {
+  [ASSET_TYPE_SMALL_SPECIAL]: {
     form: '損益計算書「減価償却費」／決算書3ページ目',
     carryFullAmount: true,
     note: '全額をその年の経費にできるが、計上先は科目ではなく「減価償却費」。決算書3ページ目の摘要に「措法28の2」と記載し、年間合計300万円が上限。',
@@ -200,3 +206,47 @@ export const EXPENSE_CATEGORY_LIMIT = 10;
 
 /** 未確認売上アラートに表示する最大件数 */
 export const UNVERIFIED_ALERT_LIMIT = 10;
+
+/**
+ * 消費税率（tax_rate）の税込→税抜換算に使う小数表現。
+ * income・expenses 共通の select 選択肢と一致させること。
+ * ここに無い値（未選択も含む）は「未設定」として扱い、換算しない。
+ */
+export const TAX_RATE_DECIMAL: Record<string, number> = {
+  '10%': 0.1,
+  '8%': 0.08,
+};
+
+/** 消費税率が未選択の明細のラベル。「対象外」なのか「未入力」なのかは区別できない */
+export const TAX_RATE_UNSET_LABEL = '未設定';
+
+/**
+ * 自宅兼事務所などで家事按分が必要になりやすい勘定科目。
+ * ここに該当し、かつ事業割合100%・按分根拠未記入の明細は税務調査で問われやすい典型パターンとして警告する。
+ */
+export const MIXED_USE_PRONE_CATEGORIES = ['地代家賃', '水道光熱費', '通信費'] as const;
+
+/**
+ * インボイス登録に伴う消費税の経過措置（2割特例→3割特例）。個人事業者限定（法人は対象外）。
+ * - 2割特例: 令和5年10月1日〜令和8年9月30日を含む課税期間が対象。個人の課税期間は暦年のため
+ *   2023〜2026年分が対象（2026年分が最後）。届出不要、確定申告書への付記のみで適用できる。
+ * - 3割特例: 令和8年度税制改正で新設。2割特例終了後も個人事業者に限り2027・2028年分の
+ *   2年間延長する経過措置。こちらも届出不要。
+ * どちらも「インボイス登録が理由で免税事業者から課税事業者になった」場合などの要件があり、
+ * 基準期間の課税売上高が1,000万円を超えて元々課税事業者だった場合などは対象外。
+ */
+export type ConsumptionTaxRelief = {
+  /** 制度名 */
+  label: string;
+  /** 売上に係る消費税額に掛ける割合 */
+  rate: number;
+};
+
+export const CONSUMPTION_TAX_RELIEF_BY_YEAR: Record<number, ConsumptionTaxRelief> = {
+  2023: { label: '2割特例', rate: 0.2 },
+  2024: { label: '2割特例', rate: 0.2 },
+  2025: { label: '2割特例', rate: 0.2 },
+  2026: { label: '2割特例', rate: 0.2 },
+  2027: { label: '3割特例', rate: 0.3 },
+  2028: { label: '3割特例', rate: 0.3 },
+};

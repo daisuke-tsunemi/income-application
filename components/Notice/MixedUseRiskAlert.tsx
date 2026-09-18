@@ -1,18 +1,17 @@
-import { DEPRECIABLE_THRESHOLD } from '@/constants';
 import { formatAmount, formatDate } from '@/libs/format';
 import type { Expense } from '@/libs/types';
 import styles from './index.module.scss';
 
 type Props = {
-  /** 10万円以上なのに経費区分が「経費」のままの明細 */
+  /** 家事按分が必要になりやすい科目なのに事業割合100%・按分根拠未記入の明細 */
   expenses: Expense[];
 };
 
 /**
- * 経費区分の設定漏れは必要経費の過大計上に直結する。
- * 集計値と同じ画面で、どの明細を確認すべきか名指しする。
+ * 地代家賃・水道光熱費・通信費は自宅兼事務所の場合、事業割合100%は
+ * 税務調査で問われやすい典型パターン。按分の根拠が記録されていれば警告しない。
  */
-export default function AssetTypeAlert({ expenses }: Props) {
+export default function MixedUseRiskAlert({ expenses }: Props) {
   if (expenses.length === 0) return null;
 
   const total = expenses.reduce((sum, expense) => sum + (expense.amount ?? 0), 0);
@@ -20,9 +19,7 @@ export default function AssetTypeAlert({ expenses }: Props) {
   return (
     <div className={styles.alert}>
       <div className={styles.alert__head}>
-        <p className="c-heading--md">
-          {formatAmount(DEPRECIABLE_THRESHOLD)} 円以上なのに経費区分が「経費」のままの明細があります
-        </p>
+        <p className="c-heading--md">家事按分が必要になりやすい科目で、事業割合100%の明細があります</p>
         <p className={`${styles.alert__count} c-txt__lg weight__700`}>
           {expenses.length.toLocaleString('ja-JP')}
           <small> 件／{formatAmount(total)} 円</small>
@@ -39,8 +36,9 @@ export default function AssetTypeAlert({ expenses }: Props) {
         ))}
       </ul>
       <p className={styles.alert__more}>
-        資産にあたるものは microCMS の「経費区分」を設定し直してください。現在これらは全額が経費計に入っています。
-        消耗品のまとめ買いなど、資産でなければ「経費（10万円未満）」のままで構いません。
+        自宅兼事務所の場合、地代家賃・水道光熱費・通信費を事業割合100%にするのは
+        税務調査で問われやすい典型パターンです。実態が全額事業使用でなければ割合を見直すか、
+        全額事業使用の根拠（事業専用の物件・回線であるなど）を「按分の根拠」に記録してください。
       </p>
     </div>
   );

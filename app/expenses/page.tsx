@@ -4,12 +4,15 @@ import Header from '@/components/Header';
 import Notice from '@/components/Notice';
 import Coverage from '@/components/Notice/Coverage';
 import AssetTypeAlert from '@/components/Notice/AssetTypeAlert';
+import SmallSpecialLimitAlert from '@/components/Notice/SmallSpecialLimitAlert';
+import MixedUseRiskAlert from '@/components/Notice/MixedUseRiskAlert';
 import ChartCard from '@/components/Dashboard/ChartCard';
 import StatTiles from '@/components/Dashboard/StatTiles';
 import SummarySection from '@/components/Dashboard/SummarySection';
 import YearFilter from '@/components/Dashboard/YearFilter';
 import ExpenseBreakdownChart from '@/components/Dashboard/ExpenseBreakdownChart';
 import { ExpenseBreakdownTable } from '@/components/Dashboard/ChartTables';
+import TaxRateBreakdownTable from '@/components/Dashboard/TaxRateBreakdownTable';
 import {
   AssetDetailTable,
   AssetGroupTable,
@@ -21,7 +24,10 @@ import {
   buildAssetGroups,
   buildAssetTypeReviews,
   buildExpenseByCategory,
+  buildExpenseTaxBreakdown,
+  buildMixedUseRiskExpenses,
   buildSummary,
+  findSmallSpecialOverLimit,
   isPlainExpense,
   limitCategories,
   sortByAmount,
@@ -58,6 +64,10 @@ export default async function Expenses({ searchParams }: Props) {
   const assetGroups = buildAssetGroups(expenses);
   const reviews = buildAssetTypeReviews(expenses);
   const paidTotal = plainExpenses.reduce((total, expense) => total + (expense.amount ?? 0), 0);
+  const taxBreakdown = buildExpenseTaxBreakdown(expenses);
+  const taxBreakdownTotal = taxBreakdown.reduce((total, row) => total + row.taxAmount, 0);
+  const smallSpecialOverLimit = findSmallSpecialOverLimit(assetGroups);
+  const mixedUseRisks = buildMixedUseRiskExpenses(expenses);
 
   return (
     <>
@@ -108,6 +118,12 @@ export default async function Expenses({ searchParams }: Props) {
         </div>
       )}
 
+      {mixedUseRisks.length > 0 && (
+        <div className="u-mb24">
+          <MixedUseRiskAlert expenses={mixedUseRisks} />
+        </div>
+      )}
+
       <div className="u-mb24">
         <ChartCard
           title="勘定科目別の必要経費"
@@ -136,11 +152,25 @@ export default async function Expenses({ searchParams }: Props) {
             <AssetGroupTable rows={assetGroups} />
           </SummarySection>
 
+          {smallSpecialOverLimit && (
+            <div className="u-mt16 u-mb24">
+              <SmallSpecialLimitAlert overLimit={smallSpecialOverLimit} />
+            </div>
+          )}
+
           <SummarySection title="資産の明細" note={`${period.label}／取得日の古い順`}>
             <AssetDetailTable rows={assets} />
           </SummarySection>
         </>
       )}
+
+      <SummarySection
+        title="税率別の内訳（消費税・参考）"
+        note="事業割合を反映した金額を集計。本則課税で仕入税額控除を計算する場合の試算用（2割特例・3割特例では使いません）"
+        total={{ label: '消費税額の合計（参考）', value: taxBreakdownTotal }}
+      >
+        <TaxRateBreakdownTable data={taxBreakdown} />
+      </SummarySection>
 
       <SummarySection
         title="経費の明細"
@@ -161,7 +191,9 @@ export default async function Expenses({ searchParams }: Props) {
           で算出しています。決算書の損益計算書に載せるのはこの金額で、家事按分した差額は経費になりません。
           科目は<strong>決算書の印字順</strong>に並べているので、上から順に転記できます。
           経費区分が「経費（10万円未満）」以外の明細は<strong>経費計に含めず</strong>、
-          「減価償却の対象」に分けています。
+          「減価償却の対象」に分けています。「税率別の内訳」の消費税額はあくまで参考値です。
+          2割特例・3割特例を使う場合はこのページの消費税額を使わず、
+          「売上・源泉徴収」ページの概算納付額だけで計算できます。
         </Notice>
       </div>
     </>

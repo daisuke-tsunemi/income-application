@@ -2,12 +2,19 @@ import { jst } from './datetime';
 import type { Deduction, Expense, Income } from './types';
 import {
   ASSET_TYPE_EXPENSE,
+  ASSET_TYPE_SMALL_SPECIAL,
+  CONSUMPTION_TAX_RELIEF_BY_YEAR,
   DEDUCTION_TYPE_ORDER,
   DEPRECIABLE_THRESHOLD,
   EXPENSE_CATEGORY_LIMIT,
   EXPENSE_CATEGORY_ORDER,
   INSURANCE_CATEGORY_ORDER,
   MEDICAL_DEDUCTION_TYPE,
+  MIXED_USE_PRONE_CATEGORIES,
+  SMALL_SPECIAL_ANNUAL_LIMIT,
+  TAX_RATE_DECIMAL,
+  TAX_RATE_UNSET_LABEL,
+  type ConsumptionTaxRelief,
 } from '@/constants';
 import { EMPTY_LABEL } from './format';
 
@@ -434,4 +441,155 @@ export const buildMonthlyTrend = (
   }
 
   return Array.from(buckets.values());
+};
+
+/* ------------------------------------------------------------------ *
+ * 消費税額（参考）：税率別の内訳
+ * 課税事業者になった場合の試算用。免税事業者のうちは使わない。
+ * ------------------------------------------------------------------ */
+
+export type ConsumptionTaxBreakdown = {
+  /** '10%' / '8%' / '未設定'（未設定は「対象外」か「未入力」かを区別できない） */
+  rate: string;
+  /** 税込金額の合計 */
+  taxIncludedTotal: number;
+  /** 内訳から算出した消費税額（参考）。明細ごとに1円未満切り捨てて合算 */
+  taxAmount: number;
+  /** taxIncludedTotal − taxAmount（参考） */
+  netAmount: number;
+  count: number;
+};
+
+/** 税込金額から消費税額を切り出す（税込 × 税率 ÷ (1 + 税率)、1円未満切り捨て） */
+const taxPortionOf = (taxIncludedAmount: number, rate: string): number => {
+  const decimal = TAX_RATE_DECIMAL[rate];
+  if (decimal === undefined) return 0;
+  return Math.floor((taxIncludedAmount * decimal) / (1 + decimal));
+};
+
+const RATE_ORDER = ['10%', '8%', TAX_RATE_UNSET_LABEL];
+
+/** 並び順のランク。RATE_ORDER に無い値（将来 selectItems が増えた場合）は「未設定」の手前扱いにする */
+const rateRankOf = (rate: string): number => {
+  const index = RATE_ORDER.indexOf(rate);
+  return index === -1 ? RATE_ORDER.length - 1 : index;
+};
+
+/**
+ * 税率ごとに税込金額を集計し、参考の消費税額・税抜金額を添える。
+ * amountOf は集計対象の金額（売上は amount、経費は事業割合を反映した businessAmountOf）を渡す。
+ */
+const buildConsumptionTaxBreakdown = <T>(
+  items: T[],
+  amountOf: (item: T) => number,
+  rateOf: (item: T) => string[] | undefined,
+): ConsumptionTaxBreakdown[] => {
+  const totals = new Map<string, ConsumptionTaxBreakdown>();
+
+  for (const item of items) {
+    const rate = rateOf(item)?.[0] ?? TAX_RATE_UNSET_LABEL;
+    const amount = amountOf(item);
+    const current = totals.get(rate) ?? {
+      rate,
+      taxIncludedTotal: 0,
+      taxAmount: 0,
+      netAmount: 0,
+      count: 0,
+    };
+
+    current.taxIncludedTotal += amount;
+    current.taxAmount += taxPortionOf(amount, rate);
+    current.count += 1;
+
+    totals.set(rate, current);
+  }
+
+  for (const row of totals.values()) {
+    row.netAmount = row.taxIncludedTotal - row.taxAmount;
+  }
+
+  return Array.from(totals.values()).sort(
+    (a, b) => rateRankOf(a.rate) - rateRankOf(b.rate),
+  );
+};
+
+/** 売上を税率別にまとめる（税込金額は income.amount そのまま） */
+export const buildIncomeTaxBreakdown = (incomes: Income[]): ConsumptionTaxBreakdown[] =>
+  buildConsumptionTaxBreakdown(
+    incomes,
+    (income) => income.amount ?? 0,
+    (income) => income.tax_rate,
+  );
+
+/**
+ * 経費を税率別にまとめる。
+ * 事業割合を反映した額（businessAmountOf）を対象にする。仕入税額控除の対象は
+ * 事業で使った分に限られるため。減価償却の対象（asset_type が「経費」以外）も、
+ * 所得税の経費算入時期とは関係なく取得時に仕入税額控除の対象になるため含める。
+ */
+export const buildExpenseTaxBreakdown = (expenses: Expense[]): ConsumptionTaxBreakdown[] =>
+  buildConsumptionTaxBreakdown(
+    expenses,
+    (expense) => businessAmountOf(expense),
+    (expense) => expense.tax_rate,
+  );
+
+/* ------------------------------------------------------------------ *
+ * 消費税の経過措置（2割特例／3割特例）：概算納付額（参考）
+ * ------------------------------------------------------------------ */
+
+export type ConsumptionTaxReliefEstimate = {
+  relief: ConsumptionTaxRelief;
+  /** 概算納付額（参考）。消費税の申告書は100円未満切り捨てが原則のため、ここでも切り捨てる */
+  amount: number;
+};
+
+/**
+ * 対象年に応じた経過措置（2割特例・3割特例）を判定し、概算納付額を返す。
+ * 対象年が範囲外（2023〜2028年分以外）なら null（この画面には表示しない）。
+ * taxAmount には売上に係る消費税額（参考）の合計（buildIncomeTaxBreakdown の taxAmount 合計）を渡す。
+ */
+export const estimateConsumptionTaxRelief = (
+  taxAmount: number,
+  year: number,
+): ConsumptionTaxReliefEstimate | null => {
+  const relief = CONSUMPTION_TAX_RELIEF_BY_YEAR[year];
+  if (!relief) return null;
+  return { relief, amount: Math.floor((taxAmount * relief.rate) / 100) * 100 };
+};
+
+/* ------------------------------------------------------------------ *
+ * 少額減価償却資産の特例：年間300万円の上限チェック
+ * ------------------------------------------------------------------ */
+
+/**
+ * 少額減価償却資産の特例（措法28の2）の対象額が年間上限（300万円）を超えていないか。
+ * 超えている場合、どの資産を特例の対象にするかは任意に選べるため、対象を選び直す必要がある。
+ */
+export const findSmallSpecialOverLimit = (
+  groups: AssetGroup[],
+): { group: AssetGroup; overBy: number } | null => {
+  const group = groups.find((item) => item.assetType === ASSET_TYPE_SMALL_SPECIAL);
+  if (!group || group.businessAmount <= SMALL_SPECIAL_ANNUAL_LIMIT) return null;
+  return { group, overBy: group.businessAmount - SMALL_SPECIAL_ANNUAL_LIMIT };
+};
+
+/* ------------------------------------------------------------------ *
+ * 家事按分100%のリスク検知
+ * ------------------------------------------------------------------ */
+
+/**
+ * 自宅兼事務所などで家事按分が必要になりやすい科目（地代家賃・水道光熱費・通信費）なのに、
+ * 事業割合が100%かつ按分の根拠が未記入の明細。税務調査で問われやすい典型パターン。
+ */
+export const buildMixedUseRiskExpenses = (expenses: Expense[]): Expense[] => {
+  const targets = MIXED_USE_PRONE_CATEGORIES as readonly string[];
+  return expenses
+    .filter((expense) => {
+      const name = expense.category?.name;
+      if (!name || !targets.includes(name)) return false;
+      if (businessRatioOf(expense) < 100) return false;
+      return !expense.ratio_basis?.trim();
+    })
+    .sort((a, b) => (b.amount ?? 0) - (a.amount ?? 0));
 };

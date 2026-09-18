@@ -10,8 +10,8 @@ export default function Sidebar() {
           src="/img/common/logo/logo_simple.webp"
           alt="ロゴ"
           className={styles.sidebar__logo}
-          width={100}
-          height={43}
+          width={120}
+          height={28}
           priority
         />
         <GlobalNav />

@@ -152,6 +152,15 @@ const detailColumns: Column<Expense>[] = [
     cell: (expense) => <>{formatAmount(expense.amount)}</>,
   },
   {
+    header: '税率',
+    cell: (expense) =>
+      expense.tax_rate?.[0] ? (
+        <span className="c-txt__sm">{expense.tax_rate[0]}</span>
+      ) : (
+        <span className="color__70 c-txt__sm">未設定</span>
+      ),
+  },
+  {
     header: '事業割合',
     align: 'right',
     cell: (expense) => {
