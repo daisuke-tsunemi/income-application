@@ -51,9 +51,11 @@ export default function UnverifiedAlert({ incomes, href }: Props) {
           </li>
         ))}
       </ul>
-      {rest > 0 && (
-        <p className={styles.alert__more}>ほか {rest.toLocaleString('ja-JP')} 件</p>
-      )}
+      <div className="u-align end">
+        {rest > 0 && (
+          <p className={styles.alert__more}>ほか {rest.toLocaleString('ja-JP')} 件</p>
+        )}
+      </div>
     </div>
   );
 }

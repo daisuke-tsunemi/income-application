@@ -5,14 +5,14 @@
   display: flex;
   align-items: flex-start;
   gap: .625rem;
-  background-color: #fff;
-  border: 1px solid var(--border);
-  border-top: 4px solid var(--primary);
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-top: 4px solid var(--primary-light);
   border-radius: .375rem;
   padding: .75rem 1rem;
   &__icon {
     flex: none;
-    fill: var(--primary);
+    fill: var(--primary-light);
     height: 1.25rem;
     width: 1.25rem;
     margin-top: .0625rem;
@@ -27,7 +27,7 @@
     line-height: 1.5;
   }
   &__text {
-    color: var(--text-light);
+    color: var(--text);
     font-size: .875rem;
     line-height: 1.7;
     margin-top: .25rem;
@@ -36,12 +36,12 @@
 
 /* 本システムが扱わない欄の明示。転記漏れが最も起きやすい箇所 */
 .coverage {
-  background-color: #fdf6ec;
+  background-color: #3a332c;
   border: 1px solid #eab88f;
   border-radius: .375rem;
   padding: .75rem 1rem;
   &__title {
-    color: #8a3b0c;
+    color: #ffb285;
     font-size: .9375rem;
     font-weight: 700;
     margin-bottom: .5rem;
@@ -63,7 +63,7 @@
     }
   }
   &__text {
-    color: var(--text-light);
+    color: var(--text);
     font-size: .8125rem;
     line-height: 1.6;
     margin-top: .5rem;
@@ -76,7 +76,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: .375rem .75rem;
-  background-color: #fff;
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: .375rem;
   padding: .625rem .875rem;
@@ -87,7 +87,6 @@
     font-weight: 700;
   }
   &__caution {
-    color: var(--text-light);
     font-size: .875rem;
     line-height: 1.7;
     width: 100%;
@@ -96,14 +95,14 @@
 
 /* インボイス経過措置（2割特例・3割特例）の概算納付額。有利な選択肢なので valid（緑系）で目立たせる */
 .relief {
-  background-color: #fff;
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-top: 4px solid var(--valid);
   border-radius: .375rem;
   padding: .875rem 1rem;
   &__label {
     color: var(--text-dark);
-    font-size: .9375rem;
+    font-size: 1rem;
     font-weight: 700;
   }
   &__value {
@@ -111,19 +110,17 @@
     font-size: 1.75rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    margin-top: .375rem;
   }
   &__unit {
-    color: var(--text-light);
+    color: var(--text);
     font-size: .875rem;
     font-weight: 500;
     margin-left: .25rem;
   }
   &__note {
-    color: var(--text-light);
+    color: var(--text);
     font-size: .8125rem;
     line-height: 1.7;
-    margin-top: .5rem;
   }
 }
 
@@ -148,15 +145,16 @@
   }
   &__list {
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: .375rem;
   }
   &__item {
     gap: .25rem .75rem;
-    background-color: #fff;
+    background-color: var(--bg-dark);
     border-radius: .25rem;
     padding: .5rem .75rem;
     time {
-      color: var(--text-light);
+      color: var(--text);
       font-variant-numeric: tabular-nums;
       flex: none;
     }
@@ -169,12 +167,10 @@
     white-space: nowrap;
   }
   &__more {
-    color: var(--text-light);
-    font-size: .8125rem;
     margin-top: .5rem;
   }
   &__done {
-    color: var(--text-light);
+    color: var(--text);
     font-size: .875rem;
   }
 }

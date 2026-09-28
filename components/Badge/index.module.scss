@@ -34,7 +34,7 @@
 
 /* 支払方法など、単なるラベル */
 .badge--plain {
-  background-color: #e8ebef;
+  background-color: var(--bg-light);
   border-color: var(--border-dark);
-  color: #3a3a3a;
+  color: white;
 }

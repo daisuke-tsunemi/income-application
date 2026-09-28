@@ -1,19 +1,13 @@
 @use "@/styles/foundation/variables" as *;
-
-// チャート用のインク・面（chartTheme.ts と対で管理する。片方だけ変えないこと）
-$surface: #f1f4f7;
-$ink-primary: #0b0b0b;
-$ink-secondary: #52514e;
-$ink-muted: #898781;
-$hairline: #e1e0d9;
-
+  $ink-secondary: #d0d0d6;
+  $ink-muted: #a5a8b1;
+  $hairline: #e1e0d9;
 // 絞り込みは全チャートの上に1行でまとめる（チャートごとに置かない）
 .filter {
   gap: .5rem .75rem;
   position:relative;
   &__range {
     strong {
-      color: $ink-primary;
       font-variant-numeric: tabular-nums;
     }
   }
@@ -60,7 +54,7 @@ $hairline: #e1e0d9;
 }
 
 .card {
-  background-color: $surface;
+  background-color: var(--surface);
   border-radius: .5rem;
   padding: 1.5rem;
   border: 1px solid var(--border);
@@ -121,7 +115,7 @@ $hairline: #e1e0d9;
         font-weight: 500;
       }
       td {
-        color: $ink-primary;
+        color: $ink-secondary;
       }
       .num {
         text-align: right;
@@ -140,7 +134,7 @@ $hairline: #e1e0d9;
 }
 
 .tile {
-  background-color: $surface;
+  background-color: var(--surface);
   border-radius: .5rem;
   padding: 2vh 1.5vw;
   border: 1px solid var(--border);
@@ -153,7 +147,7 @@ $hairline: #e1e0d9;
     line-height: 1.4;
   }
   &__value {
-    color: $ink-primary;
+    color: $ink-secondary;
     font-size: 1.75rem;
     font-weight: 700;
     line-height: 1.2;
@@ -217,22 +211,23 @@ $hairline: #e1e0d9;
   align-items: baseline;
   justify-content: flex-end;
   gap: .375rem .75rem;
-  border-top: 2px solid var(--primary);
+  background-color: var(--bg-dark);
+  border-radius: .5rem;
   margin-top: .25rem;
   padding: .5rem 1rem;
   &__label {
-    color: $ink-secondary;
+    color: var(--text-dark);
     font-size: .875rem;
     font-weight: 600;
   }
   &__value {
-    color: $ink-primary;
+    color: white;
     font-size: 1.5rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
   &__unit {
-    color: $ink-secondary;
+    color: white;
     font-size: .875rem;
   }
 }
@@ -285,7 +280,7 @@ $hairline: #e1e0d9;
     align-self: center;
   }
   &__value {
-    color: $ink-primary;
+    color: $ink-secondary;
     font-size: .875rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;

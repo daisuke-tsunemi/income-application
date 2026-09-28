@@ -10,9 +10,8 @@
   --header: 3.5rem;
    /* カラー */
   --hue: 230;
-  // --background: hsl(var(--hue), 40%, 95%);
   --background: #0a0a0a;
-  --foreground: #171717;
+  --foreground: #ededed;
 
    /* プライマリーカラー */
   --primary: hsl(var(--hue), 98%, 35%);
@@ -21,30 +20,24 @@
   --primary-dark: hsl(var(--hue), 100%, 20%);
   --primary-bg: hsl(var(--hue), 80%, 35%);
   /* テキスト */
-  --text: hsl(var(--hue), 83%, 10%);
-  --text-dark: hsl(var(--hue), 83%, 5%);
+  --text: hsl(var(--hue), 20%, 95%);
+  --text-dark: hsl(var(--hue), 40%, 85%);
   --text-light: hsl(var(--hue), 8%, 40%);
   /* グレー系の背景色 */
-  --bg: #f1f1f1;
-  --bg-light: #f1f4f7;
-  --bg-dark: #BEC8D0;
+  --bg: #2e3032;
+  --surface:#0e0f10;
+  --bg-light: #434a51;
+  --bg-dark: #141618;
   --bg-color: hsl(var(--hue), 50%, 96%);
   --border-dark: #ccc;
-  --border: #ddd;
-  --border-light: #f3f3f3;
+  --border: #4f4f54;
+  --border-light: #70707c;
   /* グラデーション */
   --gradation: linear-gradient(180deg, var(--primary), #1fe0cd);
 
   --valid: hsl(173, 88%, 35%);
-  --invalid: hsl(345, 87%, 95%);
-  --invalid-dark: hsl(345, 80%, 48%);
-}
-// ダークモード
-@media (prefers-color-scheme: dark) {
-  :root {
-    // --background: #0a0a0a;
-    // --foreground: #ededed;
-  }
+  --invalid: hsl(345, 20%, 15%);
+  --invalid-dark: hsl(345, 88%, 63%);
 }
 
 * {
@@ -185,7 +178,7 @@ summary {
   border: 1px solid transparent;
   padding:1.75vw 2.5rem 1.75vw 1.75vw;
   &:hover{
-    background-color: white;
+    background-color:var(--bg);
   }
   &::-webkit-details-marker {
     display:none;

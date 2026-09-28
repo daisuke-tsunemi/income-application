@@ -8,6 +8,7 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
+    border: var(--border) 1px solid;
     @include respond-lg{
       padding: 2rem .5rem;
       flex-direction: column;
@@ -20,6 +21,7 @@
   }
   &__logo{
     height: auto;
+    width:7.5rem;
   }
 }
 

@@ -23,11 +23,13 @@ export default function ConsumptionTaxReliefCard({ estimate, year }: Props) {
 
   return (
     <div className={styles.relief}>
-      <p className={styles.relief__label}>{relief.label}による概算納付額（参考）</p>
-      <p className={styles.relief__value}>
-        {formatAmount(amount)}
-        <span className={styles.relief__unit}>円</span>
-      </p>
+      <div className='u-align u-gap16'>
+        <p className={styles.relief__label}>{relief.label}による概算消費税納付額（参考）</p>
+        <p className={styles.relief__value}>
+          {formatAmount(amount)}
+          <span className={styles.relief__unit}>円</span>
+        </p>
+      </div>
       <p className={styles.relief__note}>
         「税率別の内訳」の消費税額（参考）の合計 × {Math.round(relief.rate * 100)}% で概算しています。
         インボイス登録が理由で免税事業者から課税事業者になった場合などが対象で、法人は対象外です。
